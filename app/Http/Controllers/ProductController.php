@@ -105,7 +105,6 @@ class ProductController extends Controller
 
 
         if (auth()->check()) {
-	dd($products);
             foreach ($products as $product) {
                 \App\Models\UserSearchHistory::updateOrCreate(
                     [
