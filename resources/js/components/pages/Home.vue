@@ -112,7 +112,7 @@
   <!-- End Category 3D Section -->
 
   <!-- Start Product Section  "our category" -->
-  <div class="product-section">
+  <div class="product-section" style="background:white">
     <div class="container">
       <div class="row">
         <!-- End Column 1 -->
@@ -172,7 +172,7 @@
   <!-- End Product Section -->
 
   <!-- 🧩 Suggestion Section -->
-  <div class="product-section" v-if="suggestedProducts.length > 0">
+  <div class="product-section py-5 mt-2" v-if="suggestedProducts.length > 0">
     <div class="container">
       <div class="text-center">
         <h3 class="title">Recommended for You</h3>
@@ -220,7 +220,7 @@
   <!-- 🌟 Special Offers Section -->
   <section
     v-if="special_offers.length"
-    class="special-offers-section text-center py-5"
+    class="special-offers-section text-center py-5 mt-2"
   >
     <div class="container">
       <h3 class="section-title text-gold">

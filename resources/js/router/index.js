@@ -6,6 +6,7 @@ import Categories from "../components/show/category/Categories.vue";
 import show_Products_category from "../components/show/product/show_products_category.vue";
 import Sub_product2 from "../components/show/sub_products/Sub_product2.vue";
 import View_sub_product from "../components/show/sub_products/View_sub_product.vue";
+import showProductDetails from "../components/show/product/product_details.vue"
 import HomeCarousel from "../customer/layout/HomeCarousel.vue";
 import Product_3d from "../3D_Product/3D_Product.vue";
 import Categories3d from "../components/show/3d/category/Categories.vue";
@@ -108,6 +109,13 @@ const routes = [
         name: "view_sub_product",
         props: true,
     },
+    {
+	path: "/dashboard/show-product-details/:id",
+	component: showProductDetails,
+	name: "show_product_details",
+	props: true,
+    },
+
 
     // ---------------- Orders and Cart -----------------
     {

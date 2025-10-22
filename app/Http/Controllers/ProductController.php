@@ -159,4 +159,10 @@ class ProductController extends Controller
 
     // الخاص بعرض بيانات المنتج الفرعية المرتبطة في المنتج
 
+    public function getProductDetails($id)
+    {
+        $product = Product::with('category','subProduct')->find($id);
+        return response()->json(['product' => $product]);
+    }
+
 }

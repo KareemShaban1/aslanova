@@ -130,7 +130,7 @@ export default {
                 .catch(error => console.error(error));
         },
         products_sub_products(id) {
-            this.$router.push({ name: "Sub_product2", params: { id } });
+            this.$router.push({ name: "show_product_details", params: { id } });
         },
         changePage(page) {
             if (page >= 1 && page <= this.totalPages) {

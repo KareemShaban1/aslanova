@@ -49,7 +49,8 @@
 <style scoped>
 .footer-section {
     padding: 2rem 0;
-    background-color: #f8f9fa;
+    background: white;
+    /*background-color: #f8f9fa; */
 }
 
 .subscription-form h3 {

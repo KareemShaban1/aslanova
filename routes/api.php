@@ -79,7 +79,8 @@ Route::group(['prefix' => 'products'], function () {
     Route::get('/search', [ProductController::class, 'search']);
     Route::post('/user-search-history', [ProductController::class, 'storeUserSearchHistory']);
     Route::get('/suggested-products', [ProductController::class, 'suggestedProducts']);
-
+	Route::get('/product-details/{id}', [ProductController::class, 'getProductDetails']);
+    
     Route::post('/', [ProductController::class, 'store']);
     Route::get('/{product}', [ProductController::class, 'show']);
     Route::post('/{product}', [ProductController::class, 'update']);
