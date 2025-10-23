@@ -328,6 +328,7 @@ export default {
         .then(response => {
           if (response.data.success) {
             // إعادة التوجيه إلى رابط PayPal
+	  cartStore.clearCart(); 
             localStorage.setItem('successPayment', 'true');
             window.location.href = response.data.redirect_url;
           } else {
@@ -421,6 +422,7 @@ export default {
     });
 
     if (response.data.success) {
+	cartStore.clearCart(); 
       window.location.href = response.data.url;
     } else {
       alert(response.data.message || 'Stripe payment failed.');

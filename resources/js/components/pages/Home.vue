@@ -1,6 +1,11 @@
 <template>
   <!-- 🖼 Hero Carousel -->
-  <div id="carouselExample" class="carousel slide hero-carousel">
+  <div
+    id="carouselExample"
+    class="carousel slide hero-carousel"
+    data-bs-ride="carousel"
+    data-bs-interval="4000"
+  >
     <div class="carousel-indicators">
       <button
         v-for="(ad, index) in ads"
@@ -112,7 +117,7 @@
   <!-- End Category 3D Section -->
 
   <!-- Start Product Section  "our category" -->
-  <div class="product-section" style="background:white">
+  <div class="product-section" style="background: white">
     <div class="container">
       <div class="row">
         <!-- End Column 1 -->
@@ -171,48 +176,59 @@
   </div>
   <!-- End Product Section -->
 
-  <!-- 🧩 Suggestion Section -->
-  <div class="product-section py-5 mt-2" v-if="suggestedProducts.length > 0">
+  <div
+    class="product-section"
+    style="background: white"
+    v-if="suggestedProducts.length > 0"
+  >
     <div class="container">
-      <div class="text-center">
-        <h3 class="title">Recommended for You</h3>
-        <p>Based on your previous searches</p>
-      </div>
       <div class="row">
-        <div
-          class="col-md-4 m-2 card ecommerce-card"
-          v-for="(prod, index) in suggestedProducts"
-          :key="index"
-        >
-          <div class="item-img text-center">
-            <span @click="products_sub_products(prod.id)">
-              <img
-                class="img-fluid card-img-top"
-                :src="getUserImageSrc(prod.file)"
-                alt="img-placeholder"
-              />
-            </span>
-          </div>
-          <div class="card-body">
-            <h6 class="item-name">
-              {{ prod.name.slice(0, 15)
-              }}{{ prod.name.length > 15 ? "..." : "" }}
-            </h6>
-            <p class="card-text item-description">
-              {{ prod.desc.slice(0, 25)
-              }}{{ prod.desc.length > 25 ? "..." : "" }}
+        <div id="suggested-products-swiper" class="swiper-container">
+          <transition-group
+            name="fadeInRight"
+            tag="div"
+            class="text-center"
+            mode="out-in"
+          >
+            <h3 class="title">
+              {{ $t("Suggested Products") }}
+            </h3>
+            <p>
+              {{ $t("This section to show our suggested products") }}
             </p>
-          </div>
-          <div class="item-options text-center">
-            <span
-              @click="products_sub_products(prod.id)"
-              class="btn btn-light btn-wishlist"
+          </transition-group>
+          <transition-group
+            name="fadeInRight"
+            tag="div"
+            class="swiper-wrapper"
+            mode="out-in"
+          >
+            <!-- <div class="swiper-wrapper"> -->
+            <!-- Start Column 2 -->
+            <div
+              class="col-12 col-md-4 mb-5 mb-md-0 swiper-slide fadeInRight"
+              v-for="(prod, index) in suggestedProducts"
+              :key="index"
             >
-              <i class="fa-solid fa-eye"></i>
-              <span>{{ $t("showSubProducts") }}</span>
-            </span>
-          </div>
+              <div class="product-item" @click="products_sub_products(prod.id)">
+                <!-- <img src="./images/product-1.png" class="img-fluid product-thumbnail" alt="Nordic Chair"> -->
+                <img
+                  :src="getUserImageSrc(prod.file)"
+                  class="img-fluid img-swipper rounded-top"
+                  alt="image"
+                />
+                <h6 class="item-name">
+                  {{ prod.name.slice(0, 15)
+                  }}{{ prod.name.length > 15 ? "..." : "" }}
+                </h6>
+              </div>
+            </div>
+          </transition-group>
+          <!-- </div> -->
+          <div id="suggested-next" class="swiper-button-next"></div>
+          <div id="suggested-prev" class="swiper-button-prev"></div>
         </div>
+        <!-- End Column 2 -->
       </div>
     </div>
   </div>
@@ -479,6 +495,16 @@ export default {
           next: "#swiper-button-next-3",
           prev: "#swiper-button-prev-3",
         },
+        {
+          id: "#special-offers-swiper",
+          next: "#special-offers-next",
+          prev: "#special-offers-prev",
+        },
+        {
+          id: "#suggested-products-swiper",
+          next: "#suggested-next",
+          prev: "#suggested-prev",
+        },
       ];
 
       swiperConfigs.forEach((config) => {
@@ -487,28 +513,36 @@ export default {
         );
         let slidesCount = swiperContainer ? swiperContainer.children.length : 0;
 
+        // Destroy any existing Swiper instance for re-initialization
+        if (document.querySelector(config.id)?.swiper) {
+          document.querySelector(config.id).swiper.destroy(true, true);
+        }
+
         new Swiper(config.id, {
           slidesPerView: 1,
           spaceBetween: 10,
+          loop: slidesCount > 3, // loop only if enough slides
+          autoplay: {
+            delay: 3000, // 3 seconds
+            disableOnInteraction: false,
+          },
           navigation: {
             nextEl: config.next,
             prevEl: config.prev,
           },
           breakpoints: {
-            1000: { slidesPerView: 3 },
+            576: { slidesPerView: 2 },
             768: { slidesPerView: 3 },
-            576: { slidesPerView: 3 },
+            1200: { slidesPerView: 4 },
           },
-          allowTouchMove: slidesCount >= 4, // تعطيل السحب إذا كان عدد الشرائح أقل من 4
+          speed: 800, // transition speed
+          grabCursor: true,
+          centeredSlides: false,
+          allowTouchMove: slidesCount > 1,
         });
-
-        // إخفاء أزرار التنقل إذا كان هناك أقل من 4 منتجات
-        if (slidesCount < 4) {
-          // document.querySelector(config.next).style.display = "none";
-          // document.querySelector(config.prev).style.display = "none";
-        }
       });
     },
+
     handleProductSelected(product) {
       console.log("Product selected from search:", product);
       // Handle any additional logic when a product is selected
@@ -526,6 +560,9 @@ export default {
           });
 
           this.suggestedProducts = response.data.products;
+          this.$nextTick(() => {
+            this.initSwiper();
+          });
         }
       } catch (error) {
         console.error(error);
@@ -591,6 +628,27 @@ export default {
 .hero .swiper-container {
   width: 100%;
   height: 100%;
+}
+.swiper-container {
+  width: 100%;
+  padding: 20px 0;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #000;
+  transition: opacity 0.3s;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  opacity: 0.7;
 }
 
 .hero .swiper-slide {
@@ -756,5 +814,42 @@ export default {
 
 .offer-card:hover .offer-image {
   transform: scale(1.05);
+}
+
+/* 🧩 Recommended Products Slider */
+.ecommerce-card {
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.ecommerce-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.btn-gold {
+  background-color: #d9b382;
+  color: #fff;
+  border: none;
+  transition: 0.3s;
+}
+
+.btn-gold:hover {
+  background-color: #c29b67;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #d9b382;
+  transition: opacity 0.3s;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  opacity: 0.7;
+}
+
+.text-gold {
+  color: #d9b382;
 }
 </style>

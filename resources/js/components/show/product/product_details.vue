@@ -7,7 +7,7 @@
           class="image-wrapper shadow-sm rounded-4 overflow-hidden position-relative"
         >
           <img
-            :src="activeVariant?.file || product.file"
+            :src="getUserImageSrc(activeVariant?.file || product.file)"
             class="img-fluid main-image"
             :alt="product.name"
           />
@@ -29,7 +29,7 @@
               :class="{ active: activeVariant?.id === variant.id }"
               @click="selectVariant(variant)"
             >
-              <img :src="variant.images" :alt="variant.color" />
+              <img :src="getUserImageSrc(variant.file)" :alt="variant.color" />
               <small class="mt-1 text-capitalize">{{ variant.color }}</small>
             </div>
           </div>
@@ -255,6 +255,9 @@ export default {
     selectVariant(variant) {
       this.activeVariant = variant;
     },
+    getUserImageSrc(photo) {
+            return photo ? `/storage/${photo}` : '/img/load.png';
+        },
   },
   mounted() {
     this.getProductDetails();
