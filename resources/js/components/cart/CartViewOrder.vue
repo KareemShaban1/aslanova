@@ -28,7 +28,7 @@
           <div class="flex-grow-1">
             <div class="d-flex justify-content-between align-items-center">
               <h5 class="fw-semibold">{{ item.name }}</h5>
-	    <button @click="removeFromCart(index)" class="btn btn-sm btn-outline-danger">
+	    <button @click="removeFromCart(item)" class="btn btn-sm btn-outline-danger">
 		<i class="fa fa-trash"></i>
 	        </button>
             </div>
@@ -275,9 +275,8 @@ export default {
   setup() {
     const cartStore = useCartStore();
     const loading = ref(false);
-    //     const cartItemsArray = computed(() => Object.values(cartStore.cartItems));
-
-    const cartItemsArray = computed(() => cartStore.cartItems);
+        const cartItemsArray = computed(() => Object.values(cartStore.cartItems));
+//     const cartItemsArray = computed(() => cartStore.cartItems);
 
     const total = computed(() => cartStore.total);
     const shipping_price = computed(() => cartStore.totalShipping);
@@ -539,7 +538,7 @@ export default {
     };
 
     const removeFromCart = (id) => {
-      cartStore.removeFromCart(id);
+      cartStore.removeFromCartCheckout(id);
     };
 
     // تحميل بيانات المستخدم عند تحميل الصفحة

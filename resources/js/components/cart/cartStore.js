@@ -46,8 +46,7 @@ export const useCartStore = defineStore('cart', {
         },
         // إزالة منتج من السلة
         removeFromCart(itemId) {
-			console.log('removeFromCart', itemId);
-			console.log('this.cartItems', this.cartItems);
+			
             if (this.cartItems[itemId]) {
 			console.log('removeFromCart', itemId);
                 this.$patch((state) => {
@@ -57,6 +56,52 @@ export const useCartStore = defineStore('cart', {
                 this.fetchCartItems(); // جلب القيم بعد الإزالة
             }
         },
+        removeFromCartCheckout(itemId) {
+	console.log('checkout item', itemId);
+        
+	this.$patch((state) => {
+	  const items = state.cartItems;
+        
+	  // ✅ Case 1: array of objects
+	  if (Array.isArray(items)) {
+	    const index = items.findIndex(
+	      (item) =>
+	        item.id == itemId ||
+	        item.product_id == itemId ||
+	        item.id == itemId?.id ||
+	        item.product_id == itemId?.product_id
+	    );
+	    if (index !== -1) items.splice(index, 1);
+	  }
+        
+	  // ✅ Case 2: object form ({ id: {...} })
+	  else if (items && typeof items === "object") {
+	    // Case: itemId is a number or string key
+	    if (typeof itemId === "string" || typeof itemId === "number") {
+	      if (items[itemId]) delete items[itemId];
+	    } else if (itemId && typeof itemId === "object") {
+	      // Case: itemId is the whole item object (Proxy)
+	      const targetId = itemId.id ?? itemId.product_id;
+        
+	      for (const key in items) {
+	        const current = items[key];
+	        if (
+		current?.id == targetId ||
+		current?.product_id == targetId
+	        ) {
+		delete items[key];
+		break;
+	        }
+	      }
+	    }
+	  }
+	});
+        
+	this.saveToLocalStorage();
+	this.fetchCartItems();
+        },
+        
+        
         // تحديث كمية المنتج
         updateQuantity(itemId, change) {
             if (this.cartItems[itemId]) {
