@@ -1,206 +1,304 @@
 <template>
-	<div class="cart-view container py-4">
-	  <!-- Header -->
-	  <div class="d-flex justify-content-between align-items-center mb-4">
-	    <h2 class="text-primary fw-bold">{{ $t('My order') }}</h2>
-	    <router-link to="/dashboard/cart" class="btn btn-outline-primary">
-	      <i class="fa-solid fa-basket-shopping me-2"></i>{{ $t('Back to View Cart') }}
-	    </router-link>
-	  </div>
-        
-	  <!-- Cart Items -->
-	  <div v-if="cartItemsArray.length">
-	    <div class="card shadow-sm p-3 mb-4">
-	      <h4 class="text-secondary mb-3"><i class="fa-solid fa-cart-shopping me-2"></i>{{ $t('Cart Summary') }}</h4>
-	      <div v-for="(item, index) in cartItemsArray" :key="index" class="cart-item border-bottom py-3 d-flex mb-3">
-	        <img :src="getUserImageSrc(item.file)" alt="product" class="cart-item-img me-3 rounded">
-	        <div class="flex-grow-1">
-		<div class="d-flex justify-content-between align-items-center">
-		  <h5 class="fw-semibold">{{ item.name }}</h5>
-		  <button @click="item.showConfirm = !item.showConfirm" class="btn btn-sm btn-outline-danger">
-		    <i class="fa fa-trash"></i>
-		  </button>
-		</div>
-		<p class="mb-1">{{ item.quantity }} × 
-		   {{ item.price }} <i class="fa-solid fa-euro-sign"></i> = 
-		  <span class="fw-bold">{{ item.price * item.quantity }} <i class="fa-solid fa-euro-sign"></i></span>
-		</p>
-        
-		<div v-if="item.partsBreakdown?.length || item.texturesBreakdown?.length" class="mt-2">
-		  <h6 class="fw-semibold">{{ $t('Details') }}</h6>
-		  <ul class="small text-muted mb-0">
-		    <li v-for="part in item.partsBreakdown" :key="part.name">{{ part.name }} - {{ part.price }}€</li>
-		    <li v-for="texture in item.texturesBreakdown" :key="texture.name">{{ texture.name }} - {{ texture.price }}€</li>
-		  </ul>
-		</div>
-        
-		<div v-if="item.showConfirm" class="mt-3 bg-light p-2 rounded text-center">
-		  <p class="mb-2">{{ $t('Are You Sure To Remove This Item From The cart ?') }}</p>
-		  <button @click="removeFromCart(item.id)" class="btn btn-danger btn-sm me-2">{{ $t('Confirm') }}</button>
-		  <button @click="cancelRemove(item.id)" class="btn btn-secondary btn-sm">{{ $t('Cancel') }}</button>
-		</div>
-	        </div>
-	      </div>
-	       <!-- Total -->
-	    <div class="text-end mb-4">
-		<h4 class="fw-bold">
-		  {{ $t('Total') }}:
-		  {{ total }} <i class="fa-solid fa-euro-sign"></i>
-		  <span v-if="shipping_price === 0" class="text-success">(+ {{ $t('Free Delivery') }})</span>
-		  <span v-else class="text-success">(+ {{ shipping_price }} <i class="fa-solid fa-euro-sign"></i> {{ $t('shipping price') }})</span>
-		</h4>
-	        </div>
-	    </div>
-        
-	   
-        
-	    <!-- Location -->
-	    <div class="card shadow-sm p-3 mb-4">
-	      <h4 class="text-primary"><i class="fa-solid fa-location-dot me-2"></i>{{ $t('Location Data') }}</h4>
-        
-	      <div class="row mt-3">
-	        <div class="col-md-6">
-		<label for="savedLocations">{{ $t('Saved Locations') }}</label>
-		<select id="savedLocations" v-model="location.location_id" @change="fillLocationData" class="form-select">
-		  <option v-for="loc in locations" :key="loc.id" :value="loc.id">
-		    {{ loc.first_name }} {{ loc.last_name }} - {{ loc.country }}
-		  </option>
-		</select>
-	        </div>
-	        <div class="col-md-6 d-flex align-items-end">
-		<button @click="handleCheckout" class="btn btn-outline-primary w-100">
-		  <i class="fa-solid fa-plus"></i> {{ $t('Add New Location') }}
-		</button>
-	        </div>
-	      </div>
-        
-	      <div class="mt-3">
-	        <p><strong>{{ $t('Name') }}:</strong> {{ location.first_name }} {{ location.last_name }}</p>
-	        <p><strong>{{ $t('House Number') }}:</strong> {{ location.street }} {{ location.house_number }}, {{ location.country }}</p>
-	        <p><strong>{{ $t('Zip Code') }}:</strong> {{ location.zipcode }}</p>
-	        <p><strong>{{ $t('Phone') }}:</strong> {{ location.phone }}</p>
-	      </div>
-	    </div>
-        
-	    <!-- Payment -->
-	    <div class="card shadow-sm p-3">
-	      <h4 class="text-primary mb-3"><i class="fa-solid fa-credit-card me-2"></i>{{ $t('Choose checkout method') }}</h4>
-	      <div class="form-check">
-	        <input class="form-check-input" type="radio" value="email" v-model="selectedMethod" id="emailCheckout" />
-	        <label class="form-check-label" for="emailCheckout">
-		<i class="fas fa-envelope"></i>
-		{{ $t('Vor Kasse') }}
-		</label>
-	      </div>
-	      <div class="form-check">
-	        <input class="form-check-input" type="radio" value="paypal" v-model="selectedMethod" id="paypalCheckout" />
-	        <label class="form-check-label" for="paypalCheckout">
-		<i class="fab fa-paypal"></i>
-		{{ $t('Paypal checkout') }}
-	</label>
-	      </div>
+  <div class="cart-view container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="text-primary fw-bold">{{ $t("My order") }}</h2>
+      <router-link to="/dashboard/cart" class="btn btn-outline-primary">
+        <i class="fa-solid fa-basket-shopping me-2"></i
+        >{{ $t("Back to View Cart") }}
+      </router-link>
+    </div>
 
-	      <div class="form-check">
-	        <input class="form-check-input" type="radio" value="credit card" v-model="selectedMethod" id="credit cardCheckout" />
-	        <label class="form-check-label" for="credit cardCheckout">
-		<i class="fas fa-credit-card"></i>
-		{{ $t('credit card') }}
-		</label>
-	      </div>
-        
-	      <div class="mt-3 text-end">
-	        <button
-		v-if="selectedMethod === 'email'"
-		@click="emailCheckoutProcess"
-		class="btn btn-primary"
-		:disabled="loading"
-	        >
-		<i class="fas fa-envelope"></i> {{ loading ? $t('Processing...') : $t('Vor Kasse') }}
+    <!-- Cart Items -->
+    <div v-if="Object.keys(cartItemsArray).length > 0">
+      <div class="card shadow-sm p-3 mb-4">
+        <h4 class="text-secondary mb-3">
+          <i class="fa-solid fa-cart-shopping me-2"></i>{{ $t("Cart Summary") }}
+        </h4>
+        <div
+          v-for="(item, index) in cartItemsArray"
+          :key="index"
+          class="cart-item border-bottom py-3 d-flex mb-3"
+        >
+          <img
+            :src="getUserImageSrc(item.file)"
+            alt="product"
+            class="cart-item-img me-3 rounded"
+          />
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center">
+              <h5 class="fw-semibold">{{ item.name }}</h5>
+	    <button @click="removeFromCart(index)" class="btn btn-sm btn-outline-danger">
+		<i class="fa fa-trash"></i>
 	        </button>
-        
-	        <button
-		v-if="selectedMethod === 'paypal'"
-		@click="proceedToCheckout"
-		class="btn btn-warning text-dark"
-		:disabled="loading"
-	        >
-		<i class="fab fa-paypal"></i> {{ loading ? $t('Processing...') : $t('Paypal checkout') }}
-	        </button>
+            </div>
+            <p class="mb-1">
+              {{ item.quantity }} × {{ item.price }}
+              <i class="fa-solid fa-euro-sign"></i> =
+              <span class="fw-bold"
+                >{{ item.price * item.quantity }}
+                <i class="fa-solid fa-euro-sign"></i
+              ></span>
+            </p>
 
-	        <button
-		v-if="selectedMethod === 'credit card'"
-		@click="stripeCheckoutProcess"
-		class="btn btn-primary"
-		:disabled="loading"
-	        >
-		<i class="fas fa-credit-card"></i> {{ loading ? $t('Processing...') : $t('credit card') }}
-	        </button>
-	      </div>
-	    </div>
-	  </div>
-        
-	  <div v-else class="text-center py-5 text-muted">
-	    <i class="fa-solid fa-cart-arrow-down fa-3x mb-3"></i>
-	    <p>{{ $t('noItemsInCart') }}</p>
-	    <router-link to="/shop" class="btn btn-outline-primary">{{ $t('Continue Shopping') }}</router-link>
-	  </div>
-        
-	  <!-- Add Location Modal -->
-	  <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
-	    <div class="modal-dialog modal-dialog-centered">
-	      <div class="modal-content border-0 shadow-lg">
-	        <div class="modal-header text-white" style="background-color: #d9b382 !important;">
-		<h5 class="modal-title text-white">{{ $t('Add New Location') }}</h5>
-		<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-	        </div>
-	        <form @submit.prevent="saveLocation">
-		<div class="modal-body">
-		  <div v-for="field in ['first_name', 'last_name', 'country', 'street', 'house_number', 'zipcode', 'phone']" :key="field" class="mb-3">
-		    <label :for="field" class="form-label">{{ $t(field.replace('_', ' ')) }}</label>
-		    <input :id="field" v-model="location[field]" type="text" class="form-control" required />
-		  </div>
-		</div>
-		<!-- <div class="modal-footer">
+            <div
+              v-if="
+                item.partsBreakdown?.length || item.texturesBreakdown?.length
+              "
+              class="mt-2"
+            >
+              <h6 class="fw-semibold">{{ $t("Details") }}</h6>
+              <ul class="small text-muted mb-0">
+                <li v-for="part in item.partsBreakdown" :key="part.name">
+                  {{ part.name }} - {{ part.price }}€
+                </li>
+                <li
+                  v-for="texture in item.texturesBreakdown"
+                  :key="texture.name"
+                >
+                  {{ texture.name }} - {{ texture.price }}€
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- Total -->
+        <div class="text-end mb-4">
+          <h4 class="fw-bold">
+            {{ $t("Total") }}: {{ total }} <i class="fa-solid fa-euro-sign"></i>
+            <span v-if="shipping_price === 0" class="text-success"
+              >(+ {{ $t("Free Delivery") }})</span
+            >
+            <span v-else class="text-success"
+              >(+ {{ shipping_price }} <i class="fa-solid fa-euro-sign"></i>
+              {{ $t("shipping price") }})</span
+            >
+          </h4>
+        </div>
+      </div>
+
+      <!-- Location -->
+      <div class="card shadow-sm p-3 mb-4">
+        <h4 class="text-primary">
+          <i class="fa-solid fa-location-dot me-2"></i>{{ $t("Location Data") }}
+        </h4>
+
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <label for="savedLocations">{{ $t("Saved Locations") }}</label>
+            <select
+              id="savedLocations"
+              v-model="location.location_id"
+              @change="fillLocationData"
+              class="form-select"
+            >
+              <option v-for="loc in locations" :key="loc.id" :value="loc.id">
+                {{ loc.first_name }} {{ loc.last_name }} - {{ loc.country }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-6 d-flex align-items-end">
+            <button
+              @click="handleCheckout"
+              class="btn btn-outline-primary w-100"
+            >
+              <i class="fa-solid fa-plus"></i> {{ $t("Add New Location") }}
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <p>
+            <strong>{{ $t("Name") }}:</strong> {{ location.first_name }}
+            {{ location.last_name }}
+          </p>
+          <p>
+            <strong>{{ $t("House Number") }}:</strong> {{ location.street }}
+            {{ location.house_number }}, {{ location.country }}
+          </p>
+          <p>
+            <strong>{{ $t("Zip Code") }}:</strong> {{ location.zipcode }}
+          </p>
+          <p>
+            <strong>{{ $t("Phone") }}:</strong> {{ location.phone }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <div class="card shadow-sm p-3">
+        <h4 class="text-primary mb-3">
+          <i class="fa-solid fa-credit-card me-2"></i
+          >{{ $t("Choose checkout method") }}
+        </h4>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            value="email"
+            v-model="selectedMethod"
+            id="emailCheckout"
+          />
+          <label class="form-check-label" for="emailCheckout">
+            <i class="fas fa-envelope"></i>
+            {{ $t("Vor Kasse") }}
+          </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            value="paypal"
+            v-model="selectedMethod"
+            id="paypalCheckout"
+          />
+          <label class="form-check-label" for="paypalCheckout">
+            <i class="fab fa-paypal"></i>
+            {{ $t("Paypal checkout") }}
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            value="credit card"
+            v-model="selectedMethod"
+            id="credit cardCheckout"
+          />
+          <label class="form-check-label" for="credit cardCheckout">
+            <i class="fas fa-credit-card"></i>
+            {{ $t("credit card") }}
+          </label>
+        </div>
+
+        <div class="mt-3 text-end">
+          <button
+            v-if="selectedMethod === 'email'"
+            @click="emailCheckoutProcess"
+            class="btn btn-primary"
+            :disabled="loading"
+          >
+            <i class="fas fa-envelope"></i>
+            {{ loading ? $t("Processing...") : $t("Vor Kasse") }}
+          </button>
+
+          <button
+            v-if="selectedMethod === 'paypal'"
+            @click="proceedToCheckout"
+            class="btn btn-warning text-dark"
+            :disabled="loading"
+          >
+            <i class="fab fa-paypal"></i>
+            {{ loading ? $t("Processing...") : $t("Paypal checkout") }}
+          </button>
+
+          <button
+            v-if="selectedMethod === 'credit card'"
+            @click="stripeCheckoutProcess"
+            class="btn btn-primary"
+            :disabled="loading"
+          >
+            <i class="fas fa-credit-card"></i>
+            {{ loading ? $t("Processing...") : $t("credit card") }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="text-center py-5 text-muted">
+      <i class="fa-solid fa-cart-arrow-down fa-3x mb-3"></i>
+      <p>{{ $t("noItemsInCart") }}</p>
+      <router-link to="/shop" class="btn btn-outline-primary">{{
+        $t("Continue Shopping")
+      }}</router-link>
+    </div>
+
+    <!-- Add Location Modal -->
+    <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg">
+          <div
+            class="modal-header text-white"
+            style="background-color: #d9b382 !important"
+          >
+            <h5 class="modal-title text-white">{{ $t("Add New Location") }}</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <form @submit.prevent="saveLocation">
+            <div class="modal-body">
+              <div
+                v-for="field in [
+                  'first_name',
+                  'last_name',
+                  'country',
+                  'street',
+                  'house_number',
+                  'zipcode',
+                  'phone',
+                ]"
+                :key="field"
+                class="mb-3"
+              >
+                <label :for="field" class="form-label">{{
+                  $t(field.replace("_", " "))
+                }}</label>
+                <input
+                  :id="field"
+                  v-model="location[field]"
+                  type="text"
+                  class="form-control"
+                  required
+                />
+              </div>
+            </div>
+            <!-- <div class="modal-footer">
 		  <button type="submit" class="btn btn-success">{{ $t('Save Location') }}</button>
 		</div> -->
-	        </form>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-        </template>
-        
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <script>
-import axios from 'axios';
-import { computed, ref, onMounted, watch } from 'vue';
-import { useCartStore } from './cartStore';
+import axios from "axios";
+import { computed, ref, onMounted, watch } from "vue";
+import { useCartStore } from "./cartStore";
 
 export default {
   setup() {
     const cartStore = useCartStore();
     const loading = ref(false);
-    const cartItemsArray = computed(() => Object.values(cartStore.cartItems));
+    //     const cartItemsArray = computed(() => Object.values(cartStore.cartItems));
+
+    const cartItemsArray = computed(() => cartStore.cartItems);
+
     const total = computed(() => cartStore.total);
     const shipping_price = computed(() => cartStore.totalShipping);
 
     const user = ref(null); // لتخزين بيانات المستخدم
-    const email = ref('');
+    const email = ref("");
     const selectedMethod = ref(null);
     const isButtonHidden = ref(false);
     const locations = ref([]);
     const location = ref({
-      first_name: '',
-      last_name: '',
-      country: '',
-      street: '',
-      house_number: '',
-      zipcode: '',
-      phone: '',
+      first_name: "",
+      last_name: "",
+      country: "",
+      street: "",
+      house_number: "",
+      zipcode: "",
+      phone: "",
       location_id: null,
     });
     const getUserImageSrc = (photo) => {
-      return photo ? `/storage/${photo}` : '/img/load.png';
+      return photo ? `/storage/${photo}` : "/img/load.png";
     };
     const getUser = async () => {
       try {
@@ -215,10 +313,10 @@ export default {
 
         // جلب المواقع المرتبطة بالمستخدم
         if (user.value && user.value.locations) {
-          locations.value = user.value.locations.map(loc => ({
+          locations.value = user.value.locations.map((loc) => ({
             ...loc,
-            first_name: loc.first_name || user.value.first_name ,
-            last_name: loc.last_name || user.value.last_name
+            first_name: loc.first_name || user.value.first_name,
+            last_name: loc.last_name || user.value.last_name,
           }));
         }
         console.log("User Locations:", locations.value);
@@ -230,7 +328,9 @@ export default {
     const originalLocation = ref(null);
 
     const fillLocationData = () => {
-      const selectedLocation = locations.value.find(loc => loc.id === location.value.location_id);
+      const selectedLocation = locations.value.find(
+        (loc) => loc.id === location.value.location_id
+      );
       if (selectedLocation) {
         location.value.first_name = selectedLocation.first_name;
         location.value.last_name = selectedLocation.last_name;
@@ -247,7 +347,7 @@ export default {
     };
 
     const resetButtonVisibility = () => {
-      isButtonHidden.value = false;  // إظهار الزر عند تغيير طريقة الدفع
+      isButtonHidden.value = false; // إظهار الزر عند تغيير طريقة الدفع
     };
 
     // مراقبة التغييرات فقط إذا كانت البيانات الأصلية مختلفة
@@ -268,7 +368,8 @@ export default {
             location.value.last_name !== originalLocation.value.last_name ||
             location.value.country !== originalLocation.value.country ||
             location.value.street !== originalLocation.value.street ||
-            location.value.house_number !== originalLocation.value.house_number ||
+            location.value.house_number !==
+              originalLocation.value.house_number ||
             location.value.zipcode !== originalLocation.value.zipcode ||
             location.value.phone !== originalLocation.value.phone;
 
@@ -285,7 +386,9 @@ export default {
       if (user.value) {
         // إذا كان المستخدم مسجلاً
         // proceedToCheckout();
-        const modal = new bootstrap.Modal(document.getElementById('checkoutModal'));
+        const modal = new bootstrap.Modal(
+          document.getElementById("checkoutModal")
+        );
         modal.show();
       } else {
         // إذا لم يكن المستخدم مسجلاً
@@ -300,14 +403,14 @@ export default {
         !location.value.street ||
         !location.value.house_number ||
         !location.value.zipcode ||
-//         !location.value.location ||
+        //         !location.value.location ||
         !location.value.phone
       ) {
-        alert('Please fill in all location details.');
+        alert("Please fill in all location details.");
         return;
       }
 
-      const data = cartItemsArray.value.map(item => ({
+      const data = cartItemsArray.value.map((item) => ({
         id: item.id || null, // تضمين id إذا كان موجودًا
         desc: item.desc || null, // تضمين desc إذا كان موجودًا
         name: item.name,
@@ -318,26 +421,27 @@ export default {
         texturesBreakdown: item.texturesBreakdown || [], // تضمين texturesBreakdown إذا كان موجودًا
       }));
 
-      axios.post('/payment', {
-        items: data,
-        total: total.value,
-        shipping_price: shipping_price.value,
-        user: user.value, // إرسال بيانات المستخدم إذا كانت موجودة
-        location: location.value // إرسال الموقع
-      })
-        .then(response => {
+      axios
+        .post("/payment", {
+          items: data,
+          total: total.value,
+          shipping_price: shipping_price.value,
+          user: user.value, // إرسال بيانات المستخدم إذا كانت موجودة
+          location: location.value, // إرسال الموقع
+        })
+        .then((response) => {
           if (response.data.success) {
             // إعادة التوجيه إلى رابط PayPal
-	  cartStore.clearCart(); 
-            localStorage.setItem('successPayment', 'true');
+            cartStore.clearCart();
+            localStorage.setItem("successPayment", "true");
             window.location.href = response.data.redirect_url;
           } else {
             // معالجة الخطأ (إظهار رسالة أو إشعار)
-            alert(response.data.message || 'Failed to create PayPal order.');
+            alert(response.data.message || "Failed to create PayPal order.");
           }
         })
-        .catch(error => {
-          console.error('Error during checkout:', error);
+        .catch((error) => {
+          console.error("Error during checkout:", error);
         });
     };
     const emailCheckoutProcess = () => {
@@ -349,17 +453,16 @@ export default {
         !location.value.street ||
         !location.value.house_number ||
         !location.value.zipcode ||
-//         !location.value.location ||
+        //         !location.value.location ||
         !location.value.phone
       ) {
-        alert('Please fill in all location details.');
+        alert("Please fill in all location details.");
         return;
       }
       isButtonHidden.value = true;
-      console.log('cat item :', cartItemsArray);
+      console.log("cat item :", cartItemsArray);
 
-
-      const data = cartItemsArray.value.map(item => ({
+      const data = cartItemsArray.value.map((item) => ({
         id: item.id || null, // تضمين id إذا كان موجودًا
         desc: item.desc || null, // تضمين desc إذا كان موجودًا
         name: item.name,
@@ -370,69 +473,74 @@ export default {
         texturesBreakdown: item.texturesBreakdown || [], // تضمين texturesBreakdown إذا كان موجودًا
       }));
 
-      axios.post('/email/payment', {
-        items: data,
-        total: total.value,
-        shipping_price: shipping_price.value,
-        user: user.value, // إرسال بيانات المستخدم إذا كانت موجودة
-        location: location.value // إرسال الكائن الخاص بالموقع
-      })
-        .then(response => {
+      axios
+        .post("/email/payment", {
+          items: data,
+          total: total.value,
+          shipping_price: shipping_price.value,
+          user: user.value, // إرسال بيانات المستخدم إذا كانت موجودة
+          location: location.value, // إرسال الكائن الخاص بالموقع
+        })
+        .then((response) => {
           if (response.data.success) {
-            cartStore.clearCart(); 
+            cartStore.clearCart();
             window.location.href = response.data.redirect_url;
           } else {
-            alert(response.data.message || 'Failed to create order.');
+            alert(response.data.message || "Failed to create order.");
           }
         })
-        .catch(error => {
-          console.error('Error during checkout:', error);
+        .catch((error) => {
+          console.error("Error during checkout:", error);
         });
     };
 
     const stripeCheckoutProcess = async () => {
-  if (
-    !location.value.first_name ||
-    !location.value.last_name ||
-    !location.value.country ||
-    !location.value.street ||
-    !location.value.house_number ||
-    !location.value.zipcode ||
-    !location.value.phone
-  ) {
-    alert('Please fill in all location details.');
-    return;
-  }
+      if (
+        !location.value.first_name ||
+        !location.value.last_name ||
+        !location.value.country ||
+        !location.value.street ||
+        !location.value.house_number ||
+        !location.value.zipcode ||
+        !location.value.phone
+      ) {
+        alert("Please fill in all location details.");
+        return;
+      }
 
-  loading.value = true;
-  const data = cartItemsArray.value.map(item => ({
-    id: item.id,
-    name: item.name,
-    price: item.price,
-    quantity: item.quantity,
-  }));
+      loading.value = true;
+      const data = cartItemsArray.value.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        quantity: item.quantity,
+      }));
 
-  try {
-    const response = await axios.post('/stripe/payment', {
-      items: data,
-      total: total.value,
-      shipping_price: shipping_price.value,
-      user: user.value,
-      location: location.value,
-    });
+      try {
+        const response = await axios.post("/stripe/payment", {
+          items: data,
+          total: total.value,
+          shipping_price: shipping_price.value,
+          user: user.value,
+          location: location.value,
+        });
 
-    if (response.data.success) {
-	cartStore.clearCart(); 
-      window.location.href = response.data.url;
-    } else {
-      alert(response.data.message || 'Stripe payment failed.');
-    }
-  } catch (error) {
-    console.error('Stripe payment error:', error);
-  } finally {
-    loading.value = false;
-  }
-};
+        if (response.data.success) {
+          cartStore.clearCart();
+          window.location.href = response.data.url;
+        } else {
+          alert(response.data.message || "Stripe payment failed.");
+        }
+      } catch (error) {
+        console.error("Stripe payment error:", error);
+      } finally {
+        loading.value = false;
+      }
+    };
+
+    const removeFromCart = (id) => {
+      cartStore.removeFromCart(id);
+    };
 
     // تحميل بيانات المستخدم عند تحميل الصفحة
     onMounted(() => {
@@ -455,6 +563,7 @@ export default {
       selectedMethod,
       stripeCheckoutProcess,
       loading,
+      removeFromCart,
     };
   },
 };
@@ -462,7 +571,7 @@ export default {
 
 <style scoped>
 .btn-paypal {
-  background-color: #FFD700;
+  background-color: #ffd700;
   /* اللون الرئيسي لزر PayPal */
   color: #000;
   /* لون الخط */
@@ -517,7 +626,6 @@ export default {
   font-size: 20px;
   /* حجم الأيقونة */
 }
-
 
 /* ******** end style btn checkout ****************** */
 

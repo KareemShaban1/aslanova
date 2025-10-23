@@ -46,7 +46,10 @@ export const useCartStore = defineStore('cart', {
         },
         // إزالة منتج من السلة
         removeFromCart(itemId) {
+			console.log('removeFromCart', itemId);
+			console.log('this.cartItems', this.cartItems);
             if (this.cartItems[itemId]) {
+			console.log('removeFromCart', itemId);
                 this.$patch((state) => {
                     delete state.cartItems[itemId];
                 });
