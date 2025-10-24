@@ -26737,7 +26737,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
     },
     products_sub_products: function products_sub_products(id) {
       this.$router.push({
-        name: "Sub_product2",
+        name: "show_product_details",
         params: {
           id: id
         }

@@ -398,7 +398,7 @@ export default {
       }
     },
     products_sub_products(id) {
-      this.$router.push({ name: "Sub_product2", params: { id } });
+      this.$router.push({ name: "show_product_details", params: { id } });
     },
     async get_ads() {
       try {
