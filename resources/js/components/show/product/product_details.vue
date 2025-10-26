@@ -209,7 +209,6 @@ export default {
     const cartStore = useCartStore();
 
     const addToCartWithToast = (product) => {
-      console.log("addToCartWithToast product: ", product);
       // Add product to cart
       cartStore.addToCart(product);
 
@@ -218,7 +217,7 @@ export default {
         position: "top-end",
         icon: "success",
         title: `${product.name} added to cart!`,
-        text: `Price: ${product.price} $`,
+        text: `Price: ${product.price} €`,
         showConfirmButton: false,
         timer: 2000,
         toast: true,

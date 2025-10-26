@@ -24286,7 +24286,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         position: "top-end",
         icon: "success",
         title: "".concat(product.name, " added to cart!"),
-        text: "Price: ".concat(product.price, " $"),
+        text: "Price: ".concat(product.price, " \u20AC"),
         showConfirmButton: false,
         timer: 2000,
         toast: true,
@@ -24638,7 +24638,6 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
   setup: function setup() {
     var cartStore = (0,_cart_cartStore__WEBPACK_IMPORTED_MODULE_0__.useCartStore)();
     var addToCartWithToast = function addToCartWithToast(product) {
-      console.log("addToCartWithToast product: ", product);
       // Add product to cart
       cartStore.addToCart(product);
 
@@ -24647,7 +24646,7 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
         position: "top-end",
         icon: "success",
         title: "".concat(product.name, " added to cart!"),
-        text: "Price: ".concat(product.price, " $"),
+        text: "Price: ".concat(product.price, " \u20AC"),
         showConfirmButton: false,
         timer: 2000,
         toast: true,
@@ -24814,7 +24813,7 @@ __webpack_require__.r(__webpack_exports__);
         position: "top-end",
         icon: "success",
         title: "".concat(product.name, " added to cart!"),
-        text: "Price: ".concat(product.price, " $"),
+        text: "Price: ".concat(product.price, " \u20AC"),
         showConfirmButton: false,
         timer: 2000,
         toast: true,

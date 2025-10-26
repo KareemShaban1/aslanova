@@ -262,7 +262,7 @@ export default {
         position: "top-end",
         icon: "success",
         title: `${product.name} added to cart!`,
-        text: `Price: ${product.price} $`,
+        text: `Price: ${product.price} €`,
         showConfirmButton: false,
         timer: 2000,
         toast: true,

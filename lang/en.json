@@ -1,6 +1,7 @@
 {
     "welcome": "welcome",
     "myCart": "My Cart",
+    "viewCart":"View Cart",
     "items": "Items",
     "noItemsInCart": "No items in your cart.",
     "by": "By",
