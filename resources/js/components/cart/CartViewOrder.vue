@@ -63,7 +63,30 @@
           </div>
         </div>
         <!-- Total -->
-        <div class="text-end mb-4">
+         <div>
+	<div class="d-flex justify-content-between">
+		<h6>{{ $t("items") }}:</h6>
+		<h6 class="custom-total-price text-primary">
+			{{ total }}
+			<i class="fa-solid fa-euro-sign"></i>
+		</h6>
+	</div>
+	<div class="d-flex justify-content-between">
+		<h6>{{ $t("shipping price") }}:</h6>
+		<h6 class="custom-total-price text-primary">
+			{{ shipping_price }}
+			<i class="fa-solid fa-euro-sign"></i>
+		</h6>
+	</div>
+	<div class="d-flex justify-content-between">
+		<h6>{{ $t("total price") }}:</h6>
+		<h6 class="custom-total-price text-primary">
+			{{ total + shipping_price }}
+			<i class="fa-solid fa-euro-sign"></i>
+		</h6>
+	</div>
+         </div>
+        <!-- <div class="text-end mb-4">
           <h4 class="fw-bold">
             {{ $t("Total") }}: {{ total }} <i class="fa-solid fa-euro-sign"></i>
             <span v-if="shipping_price === 0" class="text-success"
@@ -74,7 +97,7 @@
               {{ $t("shipping price") }})</span
             >
           </h4>
-        </div>
+        </div> -->
       </div>
 
       <!-- Location -->
@@ -431,7 +454,7 @@ export default {
         .then((response) => {
           if (response.data.success) {
             // إعادة التوجيه إلى رابط PayPal
-            cartStore.clearCart();
+          //   cartStore.clearCart();
             localStorage.setItem("successPayment", "true");
             window.location.href = response.data.redirect_url;
           } else {
@@ -482,7 +505,7 @@ export default {
         })
         .then((response) => {
           if (response.data.success) {
-            cartStore.clearCart();
+          //   cartStore.clearCart();
             window.location.href = response.data.redirect_url;
           } else {
             alert(response.data.message || "Failed to create order.");
@@ -525,7 +548,7 @@ export default {
         });
 
         if (response.data.success) {
-          cartStore.clearCart();
+          // cartStore.clearCart();
           window.location.href = response.data.url;
         } else {
           alert(response.data.message || "Stripe payment failed.");

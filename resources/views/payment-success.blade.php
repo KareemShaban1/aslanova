@@ -15,4 +15,9 @@
 	</div>
 </body>
 
+<script>
+// ✅ Clear cart items from localStorage
+localStorage.removeItem('cartItems');
+</script>
+
 </html>

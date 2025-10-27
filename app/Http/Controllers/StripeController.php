@@ -61,7 +61,6 @@ class StripeController extends Controller
 
     public function success(Request $request)
     {
-	Log::info(session()->all());
         session()->forget('payment_data');
         session()->put('success', 'Payment completed successfully.');
 

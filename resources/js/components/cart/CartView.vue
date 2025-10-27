@@ -59,11 +59,28 @@
         
 	    <!-- Total -->
 	    <div class="cart-summary card shadow-sm p-3 mt-4">
-	      <h4 class="fw-bold text-end mb-0">
-	        {{ $t('total') }}: <span class="text-primary">{{ total }} €</span>
-	        <span v-if="shipping_price === 0" class="text-success">(+ {{ $t('Free Delivery') }})</span>
-	        <span v-else class="text-muted">(+ {{ shipping_price }} € {{ $t('shipping price') }})</span>
-	      </h4>
+		<div class="d-flex justify-content-between">
+			<h6>{{ $t("items") }}:</h6>
+			<h6 class="custom-total-price text-primary">
+				{{ total }}
+				<i class="fa-solid fa-euro-sign"></i>
+			</h6>
+		</div>
+		<div class="d-flex justify-content-between">
+			<h6>{{ $t("shipping price") }}:</h6>
+			<h6 class="custom-total-price text-primary">
+				{{ shipping_price }}
+				<i class="fa-solid fa-euro-sign"></i>
+			</h6>
+		</div>
+		<div class="d-flex justify-content-between">
+			<h6>{{ $t("total price") }}:</h6>
+			<h6 class="custom-total-price text-primary">
+				{{ total + shipping_price }}
+				<i class="fa-solid fa-euro-sign"></i>
+			</h6>
+		</div>
+	    
 	    </div>
 	  </div>
         

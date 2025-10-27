@@ -3,6 +3,8 @@
     "myCart": "My Cart",
     "viewCart":"View Cart",
     "items": "Items",
+    "shipping price": "Shipping price",
+    "total price": "Total price",
     "noItemsInCart": "No items in your cart.",
     "by": "By",
     "total": "Total",

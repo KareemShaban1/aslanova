@@ -462,7 +462,10 @@ class PaypalController extends Controller
             // خصم إجمالي الضريبة من المبلغ الإجمالي بدون الضريبة
             $total_amount -= $total_vat;
         
-        return view('payment.success', compact('payments', 'total_vat', 'total_amount', 'total_total', 'total_shipping_price'));
+//         return view('payment.success', compact('payments', 'total_vat', 'total_amount', 'total_total', 'total_shipping_price'));
+	  return view('payment-success', [
+		'message' => 'Your payment was successful!',
+	  ]);
     }
     
 

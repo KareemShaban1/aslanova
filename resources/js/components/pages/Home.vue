@@ -176,63 +176,6 @@
   </div>
   <!-- End Product Section -->
 
-  <div
-    class="product-section"
-    style="background: white"
-    v-if="suggestedProducts.length > 0"
-  >
-    <div class="container">
-      <div class="row">
-        <div id="suggested-products-swiper" class="swiper-container">
-          <transition-group
-            name="fadeInRight"
-            tag="div"
-            class="text-center"
-            mode="out-in"
-          >
-            <h3 class="title">
-              {{ $t("Suggested Products") }}
-            </h3>
-            <p>
-              {{ $t("This section to show our suggested products") }}
-            </p>
-          </transition-group>
-          <transition-group
-            name="fadeInRight"
-            tag="div"
-            class="swiper-wrapper"
-            mode="out-in"
-          >
-            <!-- <div class="swiper-wrapper"> -->
-            <!-- Start Column 2 -->
-            <div
-              class="col-12 col-md-4 mb-5 mb-md-0 swiper-slide fadeInRight"
-              v-for="(prod, index) in suggestedProducts"
-              :key="index"
-            >
-              <div class="product-item" @click="products_sub_products(prod.id)">
-                <!-- <img src="./images/product-1.png" class="img-fluid product-thumbnail" alt="Nordic Chair"> -->
-                <img
-                  :src="getUserImageSrc(prod.file)"
-                  class="img-fluid img-swipper rounded-top"
-                  alt="image"
-                />
-                <h6 class="item-name">
-                  {{ prod.name.slice(0, 15)
-                  }}{{ prod.name.length > 15 ? "..." : "" }}
-                </h6>
-              </div>
-            </div>
-          </transition-group>
-          <!-- </div> -->
-          <div id="suggested-next" class="swiper-button-next"></div>
-          <div id="suggested-prev" class="swiper-button-prev"></div>
-        </div>
-        <!-- End Column 2 -->
-      </div>
-    </div>
-  </div>
-
   <!-- 🌟 Special Offers Section -->
   <section
     v-if="special_offers.length"
@@ -348,6 +291,64 @@
     </div>
   </div>
   <!-- End Product Section -->
+
+  <!-- suggest products -->
+  <div
+    class="product-section"
+    style="background: white"
+    v-if="suggestedProducts.length > 0"
+  >
+    <div class="container py-5">
+      <div class="text-center mb-4">
+        <h3 class="title">{{ $t("Suggested Products") }}</h3>
+        <p>{{ $t("This section to show our suggested products") }}</p>
+      </div>
+
+      <transition-group
+        name="fadeInRight"
+        tag="div"
+        class="row justify-content-center"
+        mode="out-in"
+      >
+        <div
+          class="col-12 col-md-6 mb-4"
+          v-for="(prod, index) in suggestedProducts"
+          :key="index"
+        >
+          <div class="card d-flex align-items-center">
+            <div class="item-img text-center">
+              <span @click="products_sub_products(prod.id)">
+                <img
+                  class="img-fluid card-img-top"
+                  :src="getUserImageSrc(prod.file)"
+                  alt="img-placeholder"
+                />
+              </span>
+            </div>
+            <div class="card-body">
+              <h6 class="item-name">
+                {{ prod.name.slice(0, 15)
+                }}{{ prod.name.length > 15 ? "..." : "" }}
+              </h6>
+              <p class="card-text item-description">
+                {{ prod.desc.slice(0, 25)
+                }}{{ prod.desc.length > 25 ? "..." : "" }}
+              </p>
+            </div>
+            <div class="item-options text-center">
+              <span
+                @click="products_sub_products(prod.id)"
+                class="btn btn-light btn-wishlist"
+              >
+                <i class="fa-solid fa-eye"></i>
+                <span>{{ $t("showSubProducts") }}</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </transition-group>
+    </div>
+  </div>
 </template>
 
 <script>
