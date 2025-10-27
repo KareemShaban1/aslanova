@@ -323,6 +323,7 @@
                   :src="getUserImageSrc(prod.file || '/img/load.png')"
                   alt="img-placeholder"
                 />
+	      
               </span>
             </div>
             <div class="card-body text-center">
