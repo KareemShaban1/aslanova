@@ -23381,10 +23381,10 @@ function _asyncToGenerator(n) { return function () { var t = this, e = arguments
       }
     },
     getUserImageSrc: function getUserImageSrc(photo) {
-      if (photo) {
+      if (photo && photo !== '/img/load.png') {
         return "/storage/".concat(photo);
       } else {
-        return "/img/load.png";
+        return photo || '/img/load.png';
       }
     },
     get_sub_product: function get_sub_product() {
@@ -27417,7 +27417,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             return $options.goToCategory3D(prod.id);
           }
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img src=\"./images/product-1.png\" class=\"img-fluid product-thumbnail\" alt=\"Nordic Chair\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-          src: $options.getUserImageSrc(prod.file),
+          src: $options.getUserImageSrc(prod.file || '/img/load.png'),
           "class": "img-fluid product-thumbnail img-swipper rounded-top",
           alt: "image"
         }, null, 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.slice(0, 15)) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.length > 15 ? "..." : ""), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_12)]);
@@ -27457,7 +27457,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             return $options.goToCategory(prod.id);
           }
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img src=\"./images/product-1.png\" class=\"img-fluid product-thumbnail\" alt=\"Nordic Chair\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-          src: $options.getUserImageSrc(prod.file),
+          src: $options.getUserImageSrc(prod.file || '/img/load.png'),
           "class": "img-fluid img-swipper rounded-top",
           alt: "image"
         }, null, 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.slice(0, 15)) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.length > 15 ? "..." : ""), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_20)]);
@@ -27519,7 +27519,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             return $options.viewOfferDetails(prod.id);
           }
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <img src=\"./images/product-1.png\" class=\"img-fluid product-thumbnail\" alt=\"Nordic Chair\"> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-          src: $options.getUserImageSrc(prod.file),
+          src: $options.getUserImageSrc(prod.file || '/img/load.png'),
           "class": "img-fluid product-thumbnail img-swipper rounded-top",
           alt: "image"
         }, null, 8 /* PROPS */, _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.slice(0, 15)) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.length > 15 ? "..." : ""), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("del", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.old_price), 1 /* TEXT */), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -27553,7 +27553,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
           "class": "img-fluid card-img-top",
-          src: $options.getUserImageSrc(_ctx.product.file),
+          src: $options.getUserImageSrc(prod.file || '/img/load.png'),
           alt: "img-placeholder"
         }, null, 8 /* PROPS */, _hoisted_51)], 8 /* PROPS */, _hoisted_50)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.slice(0, 15)) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.length > 15 ? "..." : ""), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.desc.slice(0, 25)) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.desc.length > 25 ? "..." : ""), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
           onClick: function onClick($event) {

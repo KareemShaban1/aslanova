@@ -95,7 +95,7 @@
               <div class="product-item" @click="goToCategory3D(prod.id)">
                 <!-- <img src="./images/product-1.png" class="img-fluid product-thumbnail" alt="Nordic Chair"> -->
                 <img
-                  :src="getUserImageSrc(prod.file)"
+                  :src="getUserImageSrc(prod.file || '/img/load.png')"
                   class="img-fluid product-thumbnail img-swipper rounded-top"
                   alt="image"
                 />
@@ -155,7 +155,7 @@
               <div class="product-item" @click="goToCategory(prod.id)">
                 <!-- <img src="./images/product-1.png" class="img-fluid product-thumbnail" alt="Nordic Chair"> -->
                 <img
-                  :src="getUserImageSrc(prod.file)"
+                  :src="getUserImageSrc(prod.file || '/img/load.png')"
                   class="img-fluid img-swipper rounded-top"
                   alt="image"
                 />
@@ -258,7 +258,7 @@
               <span class="product-item" @click="viewOfferDetails(prod.id)">
                 <!-- <img src="./images/product-1.png" class="img-fluid product-thumbnail" alt="Nordic Chair"> -->
                 <img
-                  :src="getUserImageSrc(prod.file)"
+                  :src="getUserImageSrc(prod.file || '/img/load.png')"
                   class="img-fluid product-thumbnail img-swipper rounded-top"
                   alt="image"
                 />
@@ -318,7 +318,7 @@
           <div class="card d-flex align-items-center">
             <div class="item-img text-center">
               <span @click="products_sub_products(prod.id)">
-		<img class="img-fluid card-img-top" :src="getUserImageSrc(prod.file)"
+		<img class="img-fluid card-img-top" :src="getUserImageSrc(prod.file || '/img/load.png')"
 		alt="img-placeholder" />
               </span>
             </div>
@@ -381,10 +381,10 @@ export default {
       }
     },
     getUserImageSrc(photo) {
-      if (photo) {
+      if (photo && photo !== '/img/load.png') {
         return `/storage/${photo}`;
       } else {
-        return "/img/load.png";
+        return photo || '/img/load.png';
       }
     },
     async get_sub_product() {
