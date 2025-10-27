@@ -318,11 +318,8 @@
           <div class="card d-flex align-items-center">
             <div class="item-img text-center">
               <span @click="products_sub_products(prod.id)">
-                <img
-                  class="img-fluid card-img-top"
-                  :src="getUserImageSrc(prod.file)"
-                  alt="img-placeholder"
-                />
+		<img class="img-fluid card-img-top" :src="getUserImageSrc(prod.file)"
+		alt="img-placeholder" />
               </span>
             </div>
             <div class="card-body">

@@ -31460,7 +31460,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
           "class": "img-fluid card-img-top",
-          src: $options.getUserImageSrc(prod.file),
+          src: $options.getUserImageSrc(_ctx.product.file),
           alt: "img-placeholder"
         }, null, 8 /* PROPS */, _hoisted_51)], 8 /* PROPS */, _hoisted_50)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.slice(0, 15)) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.name.length > 15 ? "..." : ""), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.desc.slice(0, 25)) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prod.desc.length > 25 ? "..." : ""), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
           onClick: function onClick($event) {
