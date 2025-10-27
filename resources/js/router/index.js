@@ -29,11 +29,19 @@ import Kunden_info from "../components/pages/footer/Kunden_info.vue";
 // ----------------------- Payments --------------------
 import Emailpayment from "../components/pages/payment/Emailpayment.vue";
 import Paypalpayment from "../components/pages/payment/Paypalpayment.vue";
+
+import SearchResult from "../components/common/SearchResult.vue";
+
 const routes = [
     {
         path: "/",
         component: Home,
         name: "Home",
+    },
+    {
+	path: "/search-results",
+	component: SearchResult,
+	name: "SearchResult",
     },
     {
         path: "/dashboard/about",

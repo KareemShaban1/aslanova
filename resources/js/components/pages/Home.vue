@@ -311,7 +311,7 @@
         mode="out-in"
       >
         <div
-          class="col-12 col-md-6 mb-4"
+          class="col-6 col-md-6 col-lg-4 mb-4"
           v-for="(prod, index) in suggestedProducts"
           :key="index"
         >
