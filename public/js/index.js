@@ -26885,7 +26885,7 @@ var _hoisted_8 = {
 var _hoisted_9 = ["onClick"];
 var _hoisted_10 = ["src"];
 var _hoisted_11 = {
-  "class": "card-body"
+  "class": "card-body text-center"
 };
 var _hoisted_12 = {
   "class": "item-name"

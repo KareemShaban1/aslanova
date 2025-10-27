@@ -31,7 +31,7 @@
 		        alt="img-placeholder" />
 		</span>
 	      </div>
-	      <div class="card-body">
+	      <div class="card-body text-center">
 		<h6 class="item-name">{{ product.name.slice(0, 15) }}{{ product.name.length > 15 ? '...' : '' }}
 		</h6>
 		<p class="card-text item-description">{{ product.desc.slice(0, 25) }}{{ product.desc.length > 25
