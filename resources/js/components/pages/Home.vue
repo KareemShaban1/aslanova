@@ -315,14 +315,17 @@
           v-for="(prod, index) in suggestedProducts"
           :key="index"
         >
-          <div class="card d-flex align-items-center">
+          <div class="card h-100 shadow-sm border-0" style="cursor: pointer">
             <div class="item-img text-center">
               <span @click="products_sub_products(prod.id)">
-		<img class="img-fluid card-img-top" :src="getUserImageSrc(prod.file || '/img/load.png')"
-		alt="img-placeholder" />
+                <img
+                  class="img-fluid card-img-top"
+                  :src="getUserImageSrc(prod.file || '/img/load.png')"
+                  alt="img-placeholder"
+                />
               </span>
             </div>
-            <div class="card-body">
+            <div class="card-body text-center">
               <h6 class="item-name">
                 {{ prod.name.slice(0, 15)
                 }}{{ prod.name.length > 15 ? "..." : "" }}
@@ -381,10 +384,10 @@ export default {
       }
     },
     getUserImageSrc(photo) {
-      if (photo && photo !== '/img/load.png') {
+      if (photo && photo !== "/img/load.png") {
         return `/storage/${photo}`;
       } else {
-        return photo || '/img/load.png';
+        return photo || "/img/load.png";
       }
     },
     async get_sub_product() {
