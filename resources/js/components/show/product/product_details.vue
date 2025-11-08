@@ -18,6 +18,53 @@
           </div>
         </div>
 
+        <!-- 🖼️ Additional Images & Videos -->
+        <div
+          v-if="
+            (activeVariant?.images && activeVariant.images.length) ||
+            (activeVariant?.video && activeVariant.video.length)
+          "
+          class="variant-gallery mt-4"
+        >
+          <h5 class="mb-3 fw-semibold">Gallery</h5>
+
+          <div class="d-flex flex-wrap gap-3">
+            <!-- Images -->
+            <div
+              v-for="(img, index) in activeVariant.images"
+              :key="'img-' + index"
+              class="gallery-item shadow-sm rounded overflow-hidden"
+              style="width: 120px; height: 120px; cursor: pointer"
+              @click="openPopup('image', img)"
+            >
+              <img
+                :src="getUserImageSrc(img)"
+                class="img-fluid h-100 w-100 object-fit-cover"
+                alt="variant image"
+              />
+            </div>
+
+            <!-- Videos -->
+            <div
+              v-for="(vid, index) in activeVariant.video"
+              :key="'vid-' + index"
+              class="gallery-item shadow-sm rounded overflow-hidden position-relative"
+              style="width: 120px; height: 120px; cursor: pointer"
+              @click="openPopup('video', vid)"
+            >
+              <video
+                :src="getUserImageSrc(vid)"
+                class="w-100 h-100 object-fit-cover"
+                muted
+              ></video>
+              <i
+                class="fa fa-play position-absolute top-50 start-50 translate-middle text-white fs-3"
+                style="pointer-events: none"
+              ></i>
+            </div>
+          </div>
+        </div>
+
         <!-- 🎨 Variants -->
         <div v-if="product.sub_product?.length" class="variants mt-4">
           <h5 class="mb-3 fw-semibold">Available Colors</h5>
@@ -175,7 +222,9 @@
                         </div>
                       </div>
                       <h4 class="fw-bolder">{{ $t("Shipping in") }}</h4>
-                      <p class="card-text">{{ product.delivery_price }}</p>
+                      <p class="card-text">
+                        {{ activeVariant.delivery_price }}
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -191,6 +240,37 @@
     <div class="spinner-border text-warning"></div>
     <p class="mt-3">Loading product details...</p>
   </div>
+
+  <!-- 🔲 Popup Modal -->
+<div
+v-if="showPopup"
+class="popup-overlay d-flex justify-content-center align-items-center"
+@click.self="closePopup"
+>
+<div class="popup-content position-relative">
+  <button
+    class="btn-close position-absolute top-0 end-0 m-3 bg-white rounded-circle"
+    @click="closePopup"
+  ></button>
+
+  <img
+    v-if="popupType === 'image'"
+    :src="popupSrc"
+    class="img-fluid rounded shadow"
+    style="max-height: 80vh; max-width: 90vw; object-fit: contain;"
+  />
+
+  <video
+    v-else-if="popupType === 'video'"
+    :src="popupSrc"
+    class="rounded shadow"
+    controls
+    autoplay
+    style="max-height: 80vh; max-width: 90vw; object-fit: contain;"
+  ></video>
+</div>
+</div>
+
 </template>
 
 <script>
@@ -203,6 +283,11 @@ export default {
     return {
       product: null,
       activeVariant: null,
+      mainMedia: null, // new: current displayed media (image/video)
+      mainMediaType: "image", // new: "image" or "video"
+      showPopup: false,
+    popupType: null,  
+    popupSrc: null,   
     };
   },
   setup() {
@@ -244,19 +329,86 @@ export default {
           `/api/products/product-details/${this.id}`
         );
         this.product = response.data.product;
+
         if (this.product.sub_product?.length) {
-          this.activeVariant = this.product.sub_product[0]; // default first variant
+          this.activeVariant = this.product.sub_product[0];
+
+          // 🧠 Fix parsing issue for images & videos
+          this.normalizeMedia(this.activeVariant);
         }
+
+        this.setDefaultMainMedia();
       } catch (error) {
         console.error(error);
       }
     },
+
+    normalizeMedia(variant) {
+      // Ensure images are an array
+      if (variant.images) {
+        if (typeof variant.images === "string") {
+          try {
+            variant.images = JSON.parse(variant.images);
+          } catch {
+            // fallback if it's comma-separated string
+            variant.images = variant.images.split(",").map((i) => i.trim());
+          }
+        }
+      } else {
+        variant.images = [];
+      }
+
+      // Ensure video is an array
+      if (variant.video) {
+        if (typeof variant.video === "string") {
+          try {
+            variant.video = JSON.parse(variant.video);
+          } catch {
+            variant.video = [variant.video];
+          }
+        }
+      } else {
+        variant.video = [];
+      }
+    },
+
+    setDefaultMainMedia() {
+      // Prefer video > image > placeholder
+      if (this.activeVariant?.video?.length) {
+        this.mainMedia = this.activeVariant.video[0];
+        this.mainMediaType = "video";
+      } else if (this.activeVariant?.images?.length) {
+        this.mainMedia = this.activeVariant.images[0];
+        this.mainMediaType = "image";
+      } else {
+        this.mainMedia = this.activeVariant?.file || this.product?.file;
+        this.mainMediaType = "image";
+      }
+    },
+
+    setMainMedia(type, src) {
+      this.mainMediaType = type;
+      this.mainMedia = src;
+    },
     selectVariant(variant) {
       this.activeVariant = variant;
+      this.normalizeMedia(variant);
+      this.setDefaultMainMedia();
     },
     getUserImageSrc(photo) {
-            return photo ? `/storage/${photo}` : '/img/load.png';
-        },
+      return photo ? `/storage/${photo}` : "/img/load.png";
+    },
+
+    openPopup(type, src) {
+    this.popupType = type;
+    this.popupSrc = this.getUserImageSrc(src);
+    this.showPopup = true;
+  },
+
+  closePopup() {
+    this.showPopup = false;
+    this.popupSrc = null;
+  },
   },
   mounted() {
     this.getProductDetails();
@@ -355,4 +507,26 @@ export default {
     width: 100%;
   }
 }
+
+.popup-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	z-index: 1050;
+	backdrop-filter: blur(3px);
+        }
+        
+        .popup-content {
+	position: relative;
+	max-width: 90vw;
+	max-height: 90vh;
+        }
+        
+        .btn-close {
+	z-index: 10;
+        }
+        
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <!-- 🖼 Hero Carousel -->
+  <!-- 🖼 Banners Carousel -->
   <div
     id="carouselExample"
     class="carousel slide hero-carousel"
@@ -8,7 +8,7 @@
   >
     <div class="carousel-indicators">
       <button
-        v-for="(ad, index) in ads"
+        v-for="(banner, index) in banners"
         :key="'indicator-' + index"
         type="button"
         class="btn-scroll"
@@ -21,14 +21,14 @@
 
     <div class="carousel-inner">
       <div
-        v-for="(ad, index) in ads"
+        v-for="(banner, index) in banners"
         :key="index"
         class="carousel-item"
         :class="{ active: index === 0 }"
       >
-        <a :href="ad.url" target="_blank">
+        <a :href="banner.url" target="_blank">
           <img
-            :src="getUserImageSrc(ad.image)"
+            :src="getUserImageSrc(banner.image)"
             class="d-block w-100 hero-image"
             alt="ad image"
           />
@@ -292,6 +292,100 @@
   </div>
   <!-- End Product Section -->
 
+  <div
+    id="adsCarousel"
+    class="carousel slide hero-carousel"
+    data-bs-ride="carousel"
+    data-bs-interval="4000"
+  >
+    <transition-group
+      name="fadeInRight"
+      tag="div"
+      class="text-center"
+      mode="out-in"
+    >
+      <h3 class="title">
+        {{ $t("Advertisement") }}
+      </h3>
+      <p>
+	{{
+	  $t(
+	    "You can show our advertisements here"
+	  )
+	}}
+        </p>
+    </transition-group>
+    <!-- Indicators -->
+    <div class="carousel-indicators">
+      <button
+        v-for="(ad, index) in ads"
+        :key="'indicator-' + index"
+        type="button"
+        class="btn-scroll"
+        data-bs-target="#adsCarousel"
+        :data-bs-slide-to="index"
+        :class="{ active: index === 0 }"
+        :aria-label="'Slide ' + (index + 1)"
+      ></button>
+    </div>
+
+    <!-- Carousel items -->
+    <div class="carousel-inner">
+      <div
+        v-for="(ad, index) in ads"
+        :key="index"
+        class="carousel-item"
+        :class="{ active: index === 0 }"
+      >
+        <div class="container py-5">
+          <div class="row align-items-center">
+            <!-- 🧾 Left column: Title, Description, Button -->
+            <div class="col-md-6 text-center">
+              <h2 class="fw-bold mb-3">{{ ad.title }}</h2>
+              <p class="text-muted mb-4">{{ ad.description }}</p>
+              <a
+                :href="ad.url"
+                target="_blank"
+                class="btn btn-primary px-4 py-2"
+              >
+                {{ ad.button_text || $t("Discover Now") }}
+              </a>
+            </div>
+
+            <!-- 🖼️ Right column: Image -->
+            <div class="col-md-6 text-center">
+              <img
+                :src="getUserImageSrc(ad.image)"
+                class="img-fluid rounded shadow-sm hero-image"
+                alt="ad image"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <button
+      class="carousel-control-prev"
+      type="button"
+      data-bs-target="#adsCarousel"
+      data-bs-slide="prev"
+    >
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button
+      class="carousel-control-next"
+      type="button"
+      data-bs-target="#adsCarousel"
+      data-bs-slide="next"
+    >
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
   <!-- suggest products -->
   <div
     class="product-section"
@@ -323,7 +417,6 @@
                   :src="getUserImageSrc(prod.file || '/img/load.png')"
                   alt="img-placeholder"
                 />
-	      
               </span>
             </div>
             <div class="card-body text-center">
@@ -364,6 +457,7 @@ export default {
       categories: [],
       categories3d: [],
       related_product: [],
+      banners: [],
       ads: [],
       special_offers: [],
       isVisible: false,
@@ -402,14 +496,14 @@ export default {
     products_sub_products(id) {
       this.$router.push({ name: "show_product_details", params: { id } });
     },
-    async get_ads() {
+    async get_banners() {
       try {
         const response = await axios.get(`/api/advertisements`, {
           params: {
             type: "banner",
           },
         });
-        this.ads = response.data.data;
+        this.banners = response.data.data;
         this.$nextTick(() => {
           this.initSwiper();
         });
@@ -425,6 +519,21 @@ export default {
           },
         });
         this.special_offers = response.data.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async get_ads() {
+      try {
+        const response = await axios.get(`/api/advertisements`, {
+          params: {
+            type: "advertisement",
+          },
+        });
+        this.ads = response.data.data;
+        this.$nextTick(() => {
+          this.initSwiper();
+        });
       } catch (error) {
         console.log(error);
       }
@@ -576,8 +685,9 @@ export default {
     this.get_categories();
     this.get_categories3D();
     this.get_sub_product();
-    this.get_ads();
+    this.get_banners();
     this.get_special_offers();
+    this.get_ads();
     this.checkPaymentSuccess();
     this.getSuggestedProducts();
   },

@@ -21,6 +21,7 @@ class LocationController extends Controller
             'street' => 'required|string',
             'address' => 'required|string',
             'zip_code' => 'required|string',
+	  'city'=> 'string',
             'location' => 'required|string',
             'phone' => 'required|string',
         ]);
@@ -35,6 +36,7 @@ class LocationController extends Controller
             'country' => 'required|string',
             'street' => 'required|string',
             'address' => 'required|string',
+	  'city'=>'string',
             'zip_code' => 'required|string',
             'location' => 'required|string',
             'phone' => 'required|string',

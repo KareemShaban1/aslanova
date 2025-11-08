@@ -46,6 +46,7 @@ class StripeController extends Controller
 		    'first_name' => $request->location['first_name'],
 		    'last_name' => $request->location['last_name'],
 		    'country' => $request->location['country'],
+		    'city' => $request->location['city'],
 		    'street' => $request->location['street'],
 		    'house_number' => $request->location['house_number'],
 		    'zip_code' => $request->location['zipcode'],

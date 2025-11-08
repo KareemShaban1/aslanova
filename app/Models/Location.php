@@ -14,6 +14,7 @@ class Location extends Model
         'country',
         'street',
         'house_number',
+        'city',
         'zip_code',
         'phone',
      	'first_name',

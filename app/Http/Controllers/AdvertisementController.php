@@ -28,7 +28,7 @@ class AdvertisementController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'url' => 'required',
-            'type' => 'required|in:banner,special_offer',
+            'type' => 'required|in:banner,special_offer,advertisement',
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
         ]);
@@ -58,7 +58,7 @@ class AdvertisementController extends Controller
         $request->validate([
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'url' => 'required',
-            'type' => 'required|in:banner,special_offer',
+            'type' => 'required|in:banner,special_offer,advertisement',
             'title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
         ]);

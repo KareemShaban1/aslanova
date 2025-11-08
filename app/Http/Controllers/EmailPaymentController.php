@@ -116,6 +116,7 @@ class EmailPaymentController extends Controller
             $location->country = $data['location']['country'];
             $location->street = $data['location']['street'];
             $location->house_number = $data['location']['house_number'];
+	  $location->city = $data['location']['city'];
             $location->zip_code = $data['location']['zipcode'];
             $location->phone = $data['location']['phone'];
             $location->save();
@@ -137,6 +138,7 @@ class EmailPaymentController extends Controller
             $storage_data->country = $data['location']['country'];
             $storage_data->street = $data['location']['street'];
             $storage_data->house_number = $data['location']['house_number'];
+	//   $storage_data->city = $data['location']['city'];
             $storage_data->zipcode = $data['location']['zipcode'];
             $storage_data->phone = $data['location']['phone'];
             $storage_data->shipping_price = $item['shipping_price']; // حفظ سعر الشحن

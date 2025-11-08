@@ -132,18 +132,21 @@
 
         <div class="mt-3">
           <p>
-            <strong>{{ $t("Name") }}:</strong> {{ location.first_name }}
+            <strong style="font-weight: bold; font-size:18px;">{{ $t("Name") }}:</strong> {{ location.first_name }}
             {{ location.last_name }}
           </p>
           <p>
-            <strong>{{ $t("House Number") }}:</strong> {{ location.street }}
+            <strong style="font-weight: bold; font-size:18px;">{{ $t("House Number") }}:</strong> {{ location.street }}
             {{ location.house_number }}, {{ location.country }}
           </p>
+	<p>
+	<strong style="font-weight: bold; font-size:18px;">{{ $t("City") }}:</strong> {{ location.city }}
+	        </p>
           <p>
-            <strong>{{ $t("Zip Code") }}:</strong> {{ location.zipcode }}
+            <strong style="font-weight: bold; font-size:18px;">{{ $t("Zip Code") }}:</strong> {{ location.zipcode }}
           </p>
           <p>
-            <strong>{{ $t("Phone") }}:</strong> {{ location.phone }}
+            <strong style="font-weight: bold; font-size:18px;">{{ $t("Phone") }}:</strong> {{ location.phone }}
           </p>
         </div>
       </div>
@@ -261,6 +264,7 @@
                   'country',
                   'street',
                   'house_number',
+	        'city',
                   'zipcode',
                   'phone',
                 ]"
@@ -315,6 +319,7 @@ export default {
       country: "",
       street: "",
       house_number: "",
+      city:"",
       zipcode: "",
       phone: "",
       location_id: null,
@@ -359,6 +364,7 @@ export default {
         location.value.country = selectedLocation.country;
         location.value.street = selectedLocation.street;
         location.value.house_number = selectedLocation.house_number;
+        location.value.city = selectedLocation.city;
         location.value.zipcode = selectedLocation.zip_code;
         location.value.phone = selectedLocation.phone;
         location.value.location_id = selectedLocation.id;
@@ -380,6 +386,7 @@ export default {
         country: location.value.country,
         street: location.value.street,
         house_number: location.value.house_number,
+        city: location.value.city,
         zipcode: location.value.zipcode,
         phone: location.value.phone,
       }),
@@ -392,6 +399,7 @@ export default {
             location.value.street !== originalLocation.value.street ||
             location.value.house_number !==
               originalLocation.value.house_number ||
+	  location.value.city !== originalLocation.value.city ||  
             location.value.zipcode !== originalLocation.value.zipcode ||
             location.value.phone !== originalLocation.value.phone;
 
@@ -424,6 +432,7 @@ export default {
         !location.value.country ||
         !location.value.street ||
         !location.value.house_number ||
+        !location.value.city ||
         !location.value.zipcode ||
         //         !location.value.location ||
         !location.value.phone
@@ -474,6 +483,7 @@ export default {
         !location.value.country ||
         !location.value.street ||
         !location.value.house_number ||
+        !location.value.city ||
         !location.value.zipcode ||
         //         !location.value.location ||
         !location.value.phone
@@ -523,6 +533,7 @@ export default {
         !location.value.country ||
         !location.value.street ||
         !location.value.house_number ||
+        !location.value.city ||
         !location.value.zipcode ||
         !location.value.phone
       ) {

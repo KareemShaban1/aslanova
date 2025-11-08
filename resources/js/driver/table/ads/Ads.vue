@@ -56,6 +56,7 @@
                       <option value="special_offer">
                         {{ $t("Special Offer") }}
                       </option>
+		  <option value="advertisement">{{ $t("Advertisement") }}</option>
                     </select>
                   </div>
 
@@ -151,6 +152,7 @@
                       <option value="special_offer">
                         {{ $t("Special Offer") }}
                       </option>
+		  <option value="advertisement">{{ $t("Advertisement") }}</option>
                     </select>
                   </div>
 
