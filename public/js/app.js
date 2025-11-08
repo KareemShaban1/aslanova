@@ -31374,6 +31374,7 @@ var _hoisted_43 = {
   key: 0
 };
 var _hoisted_44 = {
+  key: 2,
   id: "adsCarousel",
   "class": "carousel slide hero-carousel",
   "data-bs-ride": "carousel",
@@ -31410,7 +31411,7 @@ var _hoisted_55 = {
 };
 var _hoisted_56 = ["src"];
 var _hoisted_57 = {
-  key: 2,
+  key: 3,
   "class": "product-section",
   style: {
     "background": "white"
@@ -31621,7 +31622,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, -1 /* HOISTED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "swiper-button-prev-3",
     "class": "swiper-button-prev"
-  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End Column 2 ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End Product Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
+  }, null, -1 /* HOISTED */)]))) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End Column 2 ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" End Product Section "), $data.ads.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
     name: "fadeInRight",
     tag: "div",
     "class": "text-center",
@@ -31657,7 +31658,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "class": "img-fluid rounded shadow-sm hero-image",
       alt: "ad image"
     }, null, 8 /* PROPS */, _hoisted_56)])])])], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls "), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<button class=\"carousel-control-prev\" type=\"button\" data-bs-target=\"#adsCarousel\" data-bs-slide=\"prev\" data-v-a9aac016><span class=\"carousel-control-prev-icon\" aria-hidden=\"true\" data-v-a9aac016></span><span class=\"visually-hidden\" data-v-a9aac016>Previous</span></button><button class=\"carousel-control-next\" type=\"button\" data-bs-target=\"#adsCarousel\" data-bs-slide=\"next\" data-v-a9aac016><span class=\"carousel-control-next-icon\" aria-hidden=\"true\" data-v-a9aac016></span><span class=\"visually-hidden\" data-v-a9aac016>Next</span></button>", 2))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" suggest products "), $data.suggestedProducts.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t("Suggested Products")), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t("This section to show our suggested products")), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Controls "), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<button class=\"carousel-control-prev\" type=\"button\" data-bs-target=\"#adsCarousel\" data-bs-slide=\"prev\" data-v-a9aac016><span class=\"carousel-control-prev-icon\" aria-hidden=\"true\" data-v-a9aac016></span><span class=\"visually-hidden\" data-v-a9aac016>Previous</span></button><button class=\"carousel-control-next\" type=\"button\" data-bs-target=\"#adsCarousel\" data-bs-slide=\"next\" data-v-a9aac016><span class=\"carousel-control-next-icon\" aria-hidden=\"true\" data-v-a9aac016></span><span class=\"visually-hidden\" data-v-a9aac016>Next</span></button>", 2))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" suggest products "), $data.suggestedProducts.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t("Suggested Products")), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$t("This section to show our suggested products")), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
     name: "fadeInRight",
     tag: "div",
     "class": "row justify-content-center",

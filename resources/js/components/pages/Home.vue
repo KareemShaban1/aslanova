@@ -293,6 +293,7 @@
   <!-- End Product Section -->
 
   <div
+    v-if="ads.length > 0"
     id="adsCarousel"
     class="carousel slide hero-carousel"
     data-bs-ride="carousel"
