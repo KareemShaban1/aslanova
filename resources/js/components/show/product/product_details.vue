@@ -86,10 +86,19 @@
       <!-- 🧾 Product Info -->
       <div class="col-md-6">
         <div class="product-info">
-          <h2 class="fw-bold mb-3">
+          <h2 class="fw-bold mb-2">
             {{ activeVariant?.name || product.name }}
           </h2>
-          <p class="text-muted mb-3">
+          <span
+            class="item-price text-black border border-1 border-primary rounded px-1 my-2"
+          >
+            <span class="">
+              <i class="fa-solid fa-clock"></i>
+            </span>
+            <span class="px-1">{{ $t("Shipping in") }} :</span>
+            <span>{{ activeVariant.delivery_price }}</span>
+          </span>
+          <p class="text-muted my-2">
             {{ activeVariant?.desc || product.desc }}
           </p>
 
@@ -242,35 +251,34 @@
   </div>
 
   <!-- 🔲 Popup Modal -->
-<div
-v-if="showPopup"
-class="popup-overlay d-flex justify-content-center align-items-center"
-@click.self="closePopup"
->
-<div class="popup-content position-relative">
-  <button
-    class="btn-close position-absolute top-0 end-0 m-3 bg-white rounded-circle"
-    @click="closePopup"
-  ></button>
+  <div
+    v-if="showPopup"
+    class="popup-overlay d-flex justify-content-center align-items-center"
+    @click.self="closePopup"
+  >
+    <div class="popup-content position-relative">
+      <button
+        class="btn-close position-absolute top-0 end-0 m-3 bg-white rounded-circle"
+        @click="closePopup"
+      ></button>
 
-  <img
-    v-if="popupType === 'image'"
-    :src="popupSrc"
-    class="img-fluid rounded shadow"
-    style="max-height: 80vh; max-width: 90vw; object-fit: contain;"
-  />
+      <img
+        v-if="popupType === 'image'"
+        :src="popupSrc"
+        class="img-fluid rounded shadow"
+        style="max-height: 80vh; max-width: 90vw; object-fit: contain"
+      />
 
-  <video
-    v-else-if="popupType === 'video'"
-    :src="popupSrc"
-    class="rounded shadow"
-    controls
-    autoplay
-    style="max-height: 80vh; max-width: 90vw; object-fit: contain;"
-  ></video>
-</div>
-</div>
-
+      <video
+        v-else-if="popupType === 'video'"
+        :src="popupSrc"
+        class="rounded shadow"
+        controls
+        autoplay
+        style="max-height: 80vh; max-width: 90vw; object-fit: contain"
+      ></video>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -286,8 +294,8 @@ export default {
       mainMedia: null, // new: current displayed media (image/video)
       mainMediaType: "image", // new: "image" or "video"
       showPopup: false,
-    popupType: null,  
-    popupSrc: null,   
+      popupType: null,
+      popupSrc: null,
     };
   },
   setup() {
@@ -400,15 +408,15 @@ export default {
     },
 
     openPopup(type, src) {
-    this.popupType = type;
-    this.popupSrc = this.getUserImageSrc(src);
-    this.showPopup = true;
-  },
+      this.popupType = type;
+      this.popupSrc = this.getUserImageSrc(src);
+      this.showPopup = true;
+    },
 
-  closePopup() {
-    this.showPopup = false;
-    this.popupSrc = null;
-  },
+    closePopup() {
+      this.showPopup = false;
+      this.popupSrc = null;
+    },
   },
   mounted() {
     this.getProductDetails();
@@ -509,24 +517,23 @@ export default {
 }
 
 .popup-overlay {
-	position: fixed;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.8);
-	z-index: 1050;
-	backdrop-filter: blur(3px);
-        }
-        
-        .popup-content {
-	position: relative;
-	max-width: 90vw;
-	max-height: 90vh;
-        }
-        
-        .btn-close {
-	z-index: 10;
-        }
-        
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 1050;
+  backdrop-filter: blur(3px);
+}
+
+.popup-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.btn-close {
+  z-index: 10;
+}
 </style>

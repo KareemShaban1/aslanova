@@ -345,6 +345,7 @@
               <h2 class="fw-bold mb-3">{{ ad.title }}</h2>
               <p class="text-muted mb-4">{{ ad.description }}</p>
               <a
+	    	v-if="ad.url"
                 :href="ad.url"
                 target="_blank"
                 class="btn btn-primary px-4 py-2"
