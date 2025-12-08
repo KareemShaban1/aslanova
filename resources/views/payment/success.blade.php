@@ -159,9 +159,10 @@
 
 			<div class="customer">
 				<p>{{ $payments[0]->payer_name }}</p>
-				<p>{{ $payments[0]->country }}</p>
-				<p>{{ $payments[0]->street }}</p>
-				<p>{{ $payments[0]->address }}</p>
+				<p>{{ $payments[0]->street }} {{ $payments[0]->house_number }} ,
+					{{ $payments[0]->country }}</p>
+				<!-- <p></p> -->
+				<!-- <p></p> -->
 				<p>{{ $payments[0]->zipcode }}</p>
 				<p>{{ $payments[0]->location }}</p>
 				<p>{{ $payments[0]->phone }}</p>
@@ -282,6 +283,29 @@
 		<p>Steuernummer: 10252963290</p>
 	</div>
 	</div>
+
+	<script>
+	// Prevent back navigation and redirect to stripe.success route
+	(function() {
+		// Store the redirect URL
+		const redirectUrl = "{{ route('stripe.success') }}";
+
+		// Push a state to the history stack
+		history.pushState(null, null, location.href);
+
+		// Listen for back button press (popstate event)
+		window.addEventListener('popstate', function(event) {
+			// Redirect to stripe.success route when user tries to go back
+			window.location.href = redirectUrl;
+		});
+
+		// Prevent back navigation by replacing history
+		window.addEventListener('load', function() {
+			history.replaceState(null, null, location.href);
+			history.pushState(null, null, location.href);
+		});
+	})();
+	</script>
 </body>
 
 </html>

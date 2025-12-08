@@ -131,22 +131,27 @@
         </div>
 
         <div class="mt-3">
-          <p>
-            <strong style="font-weight: bold; font-size:18px;">{{ $t("Name") }}:</strong> {{ location.first_name }}
-            {{ location.last_name }}
+          <p class="location-field">
+            <strong class="location-label">{{ $t("Name") }}:</strong> 
+            <span class="location-value">{{ location.first_name }}
+            {{ location.last_name }}</span>
           </p>
-          <p>
-            <strong style="font-weight: bold; font-size:18px;">{{ $t("House Number") }}:</strong> {{ location.street }}
-            {{ location.house_number }}, {{ location.country }}
+          <p class="location-field">
+            <strong class="location-label">{{ $t("House Number") }}:</strong> 
+            <span class="location-value">{{ location.street }}
+            {{ location.house_number }}, {{ location.country }}</span>
           </p>
-	<p>
-	<strong style="font-weight: bold; font-size:18px;">{{ $t("City") }}:</strong> {{ location.city }}
+	<p class="location-field">
+	<strong class="location-label">{{ $t("City") }}:</strong> 
+	<span class="location-value">{{ location.city }}</span>
 	        </p>
-          <p>
-            <strong style="font-weight: bold; font-size:18px;">{{ $t("Zip Code") }}:</strong> {{ location.zipcode }}
+          <p class="location-field">
+            <strong class="location-label">{{ $t("Zip Code") }}:</strong> 
+            <span class="location-value">{{ location.zipcode }}</span>
           </p>
-          <p>
-            <strong style="font-weight: bold; font-size:18px;">{{ $t("Phone") }}:</strong> {{ location.phone }}
+          <p class="location-field">
+            <strong class="location-label">{{ $t("Phone") }}:</strong> 
+            <span class="location-value">{{ location.phone }}</span>
           </p>
         </div>
       </div>
@@ -840,5 +845,21 @@ export default {
   flex: 0 0 auto;
   margin-left: 10px;
   font-weight: bold;
+}
+
+/* Location fields styling - ensure consistent font-size */
+.location-field {
+  font-size: 22px;
+  margin-bottom: 0.75rem;
+}
+
+.location-label {
+  font-weight: bolder;
+  font-size: 22px;
+  margin-right:10px
+}
+
+.location-value {
+  font-size: 18px;
 }
 </style>

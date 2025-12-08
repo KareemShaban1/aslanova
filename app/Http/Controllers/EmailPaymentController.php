@@ -178,6 +178,7 @@ class EmailPaymentController extends Controller
     
         session()->put('success', 'Cart details sent successfully!');
     
+        
         return response()->json([
             'success' => 'Cart details sent successfully!',
             'redirect_url' => route('payment.success', ['payment_id' => $payment_id])

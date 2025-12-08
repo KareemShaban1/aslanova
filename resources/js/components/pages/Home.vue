@@ -338,27 +338,27 @@
         class="carousel-item"
         :class="{ active: index === 0 }"
       >
-        <div class="container py-5">
+        <div class="container py-3 py-md-5">
           <div class="row align-items-center">
             <!-- 🧾 Left column: Title, Description, Button -->
-            <div class="col-md-6 text-center">
-              <h2 class="fw-bold mb-3">{{ ad.title }}</h2>
-              <p class="text-muted mb-4">{{ ad.description }}</p>
+            <div class="col-12 col-md-6 text-center order-2 order-md-1">
+              <h2 class="fw-bold mb-2 mb-md-3 ad-title">{{ ad.title }}</h2>
+              <p class="text-muted mb-3 mb-md-4 ad-description">{{ ad.description }}</p>
               <a
 	    	v-if="ad.url"
                 :href="ad.url"
                 target="_blank"
-                class="btn btn-primary px-4 py-2"
+                class="btn btn-primary px-3 px-md-4 py-2 ad-button"
               >
                 {{ ad.button_text || $t("Discover Now") }}
               </a>
             </div>
 
             <!-- 🖼️ Right column: Image -->
-            <div class="col-md-6 text-center">
+            <div class="col-12 col-md-6 text-center order-1 order-md-2 mb-3 mb-md-0">
               <img
                 :src="getUserImageSrc(ad.image)"
-                class="img-fluid rounded shadow-sm hero-image"
+                class="img-fluid rounded shadow-sm ad-image"
                 alt="ad image"
               />
             </div>
@@ -965,5 +965,81 @@ export default {
 
 .text-gold {
   color: #d9b382;
+}
+
+/* 📱 Ads Carousel Responsive Styles */
+#adsCarousel .ad-title {
+  font-size: 1.5rem;
+}
+
+#adsCarousel .ad-description {
+  font-size: 0.95rem;
+  padding: 0 1rem;
+}
+
+#adsCarousel .ad-button {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+#adsCarousel .ad-image {
+  max-height: 250px;
+  width: 100%;
+  object-fit: contain;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  #adsCarousel .ad-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  #adsCarousel .ad-description {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  #adsCarousel .ad-button {
+    font-size: 0.85rem;
+    padding: 0.5rem 1.5rem;
+  }
+
+  #adsCarousel .ad-image {
+    max-height: 200px;
+    margin-bottom: 1rem;
+  }
+
+  #adsCarousel .carousel-control-prev,
+  #adsCarousel .carousel-control-next {
+    width: 35px;
+    height: 35px;
+  }
+
+  #adsCarousel .carousel-control-prev-icon,
+  #adsCarousel .carousel-control-next-icon {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  #adsCarousel .ad-title {
+    font-size: 1.1rem;
+  }
+
+  #adsCarousel .ad-description {
+    font-size: 0.8rem;
+    padding: 0;
+  }
+
+  #adsCarousel .ad-image {
+    max-height: 180px;
+  }
+
+  #adsCarousel .carousel-indicators {
+    margin-bottom: 0.5rem;
+  }
 }
 </style>

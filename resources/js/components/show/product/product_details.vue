@@ -81,6 +81,12 @@
             </div>
           </div>
         </div>
+       <div class="mt-4">
+	<h3>{{ $t("Description") }}</h3>
+	<p class="text-muted my-2">
+		{{ activeVariant?.desc || product.desc }}
+	        </p>
+       </div>
       </div>
 
       <!-- 🧾 Product Info -->
@@ -90,7 +96,7 @@
             {{ activeVariant?.name || product.name }}
           </h2>
           <span
-            class="item-price text-black border border-1 border-primary rounded px-1 my-2"
+            class="item-price mb-4 text-black border border-1 border-primary rounded px-1 my-2"
           >
             <span class="">
               <i class="fa-solid fa-clock"></i>
@@ -98,18 +104,18 @@
             <span class="px-1">{{ $t("Shipping in") }} :</span>
             <span>{{ activeVariant.delivery_price }}</span>
           </span>
-          <p class="text-muted my-2">
+          <!-- <p class="text-muted my-2">
             {{ activeVariant?.desc || product.desc }}
-          </p>
+          </p> -->
 
-          <div class="d-flex align-items-center gap-3 mb-4">
+          <div class="d-flex align-items-center gap-3 mt-2">
             <h3 class="price mb-0">€{{ activeVariant?.price || "—" }}</h3>
             <small class="text-secondary">
               Shipping: €{{ activeVariant?.shipping_price || "—" }}
             </small>
           </div>
 
-          <button class="btn btn-add-cart" @click="addToCart(activeVariant)">
+          <button class="btn btn-add-cart mt-2" @click="addToCart(activeVariant)">
             <i class="fa fa-cart-plus me-2"></i> Add to Cart
           </button>
 

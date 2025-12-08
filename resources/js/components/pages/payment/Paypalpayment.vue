@@ -59,14 +59,14 @@
                                             <i class="fas fa-map-marker-alt me-2"></i> {{ $t('Address Details') }}
                                         </h6>
                                         <p class="card-text">
-                                            <strong>{{ $t('Country') }}:</strong> {{ payment.country }}
+                                            <strong>{{ $t('Address') }}:</strong> {{ payment.street }}  {{ payment.house_number }} , {{ payment.country }}
                                         </p>
-                                        <p class="card-text">
+                                        <!-- <p class="card-text">
                                             <strong>{{ $t('Street') }}:</strong> {{ payment.street }}
                                         </p>
                                         <p class="card-text">
                                             <strong>{{ $t('Address') }}:</strong> {{ payment.address }}
-                                        </p>
+                                        </p> -->
                                         <p class="card-text">
                                             <strong>{{ $t('Zip Code') }}:</strong> {{ payment.zipcode }}
                                         </p>
