@@ -339,9 +339,9 @@
         :class="{ active: index === 0 }"
       >
         <div class="container py-3 py-md-5">
-          <div class="row align-items-center">
+          <div class="row align-items-center ads-carousel-row">
             <!-- 🧾 Left column: Title, Description, Button -->
-            <div class="col-12 col-md-6 text-center order-2 order-md-1">
+            <div class="col-12 col-md-6 text-center order-2 order-md-1 d-flex flex-column justify-content-center ads-content-col">
               <h2 class="fw-bold mb-2 mb-md-3 ad-title">{{ ad.title }}</h2>
               <p class="text-muted mb-3 mb-md-4 ad-description">{{ ad.description }}</p>
               <a
@@ -717,6 +717,12 @@ export default {
   /* يمنع التشوه ويجعل الصورة تغطي العنصر */
 }
 
+/* Override for ads carousel images - don't apply full height */
+#adsCarousel .carousel-item img {
+  height: auto;
+  object-fit: contain;
+}
+
 /* ✅ ضبط الاستجابة للأجهزة المختلفة */
 @media (max-width: 1024px) {
   /* الأجهزة اللوحية */
@@ -729,8 +735,32 @@ export default {
 @media (max-width: 768px) {
   /* الموبايل */
   .carousel-inner {
-    height: 300px;
+    height: auto;
+    min-height: 300px;
     /* تقليل الارتفاع للموبايل */
+  }
+  
+  /* Ensure ads carousel content is visible on mobile */
+  #adsCarousel .carousel-inner {
+    height: auto !important;
+    min-height: 400px;
+    padding-bottom: 20px;
+    overflow: visible;
+  }
+  
+  #adsCarousel .carousel-item {
+    height: auto !important;
+    min-height: 400px;
+    overflow: visible;
+  }
+  
+  /* Ensure container and row don't constrain content */
+  #adsCarousel .container {
+    overflow: visible;
+  }
+  
+  #adsCarousel .row {
+    overflow: visible;
   }
 }
 
@@ -990,20 +1020,45 @@ export default {
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
+  /* Fix row alignment on mobile - start from top instead of center */
+  #adsCarousel .ads-carousel-row {
+    align-items: flex-start !important;
+  }
+  
+  /* Ensure content column is visible and properly displayed */
+  #adsCarousel .ads-content-col {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: auto;
+    padding: 15px 0;
+    width: 100%;
+  }
+  
   #adsCarousel .ad-title {
     font-size: 1.25rem;
     margin-bottom: 0.75rem;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100%;
   }
 
   #adsCarousel .ad-description {
     font-size: 0.85rem;
     margin-bottom: 1rem;
     padding: 0 0.5rem;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100%;
   }
 
   #adsCarousel .ad-button {
     font-size: 0.85rem;
     padding: 0.5rem 1.5rem;
+    display: inline-block !important;
+    margin: 0 auto;
   }
 
   #adsCarousel .ad-image {
@@ -1025,13 +1080,36 @@ export default {
 }
 
 @media (max-width: 576px) {
+  /* Ensure row alignment on very small screens */
+  #adsCarousel .ads-carousel-row {
+    align-items: flex-start !important;
+  }
+  
+  /* Ensure content column is visible on very small screens */
+  #adsCarousel .ads-content-col {
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: auto;
+    padding: 10px 0;
+    width: 100%;
+  }
+  
   #adsCarousel .ad-title {
     font-size: 1.1rem;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100%;
   }
 
   #adsCarousel .ad-description {
     font-size: 0.8rem;
     padding: 0;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 100%;
   }
 
   #adsCarousel .ad-image {
@@ -1040,6 +1118,14 @@ export default {
 
   #adsCarousel .carousel-indicators {
     margin-bottom: 0.5rem;
+  }
+  
+  #adsCarousel .carousel-inner {
+    min-height: 350px;
+  }
+  
+  #adsCarousel .carousel-item {
+    min-height: 350px;
   }
 }
 </style>

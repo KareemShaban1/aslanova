@@ -46,16 +46,79 @@
                                 aria-describedby="Address" tabindex="6" autofocus :placeholder="user.location" />
                         </div>
                     </div>
-                    <!-- <div class="col-xl-4 col-md-6 col-12 mb-1 mb-md-0">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="text" class="form-control" id="email" name="email" v-model="email"  aria-describedby="email" tabindex="7" :placeholder="user.email"/>
-                                        </div> -->
                     <div class="col-xl-4 col-md-6 col-12">
                         <label for="personImage" class="form-label">{{ $t('personImage') }} {{ $t('(optional)')
                             }}</label>
-                        <!-- <input type="file" class="form-control" id="personImage" name="personImage" placeholder="john@example.com" aria-describedby="personImage" tabindex="7" /> -->
                         <input type="file" class="form-control" id="personImage" aria-describedby="personImage"
                             tabindex="7" @change="handleImageChange" accept="image/*" />
+                    </div>
+                </div>
+
+                <!-- Location Details Section -->
+                <div class="row mt-4" v-if="lastLocation">
+                    <div class="col-12">
+                        <h5 class="mb-3">{{ $t('Location Details') }}</h5>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12">
+                        <div class="mb-1">
+                            <label for="location_first_name" class="form-label">{{ $t('First Name') }}</label>
+                            <input type="text" class="form-control" id="location_first_name" name="location_first_name"
+                                v-model="locationData.first_name" tabindex="8" />
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12">
+                        <div class="mb-1">
+                            <label for="location_last_name" class="form-label">{{ $t('Last Name') }}</label>
+                            <input type="text" class="form-control" id="location_last_name" name="location_last_name"
+                                v-model="locationData.last_name" tabindex="9" />
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12">
+                        <div class="mb-1">
+                            <label for="location_country" class="form-label">{{ $t('Country') }}</label>
+                            <input type="text" class="form-control" id="location_country" name="location_country"
+                                v-model="locationData.country" tabindex="10" />
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12">
+                        <div class="mb-1">
+                            <label for="location_city" class="form-label">{{ $t('City') }}</label>
+                            <input type="text" class="form-control" id="location_city" name="location_city"
+                                v-model="locationData.city" tabindex="11" />
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12">
+                        <div class="mb-1">
+                            <label for="location_street" class="form-label">{{ $t('Street') }}</label>
+                            <input type="text" class="form-control" id="location_street" name="location_street"
+                                v-model="locationData.street" tabindex="12" />
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12">
+                        <div class="mb-1">
+                            <label for="location_house_number" class="form-label">{{ $t('House Number') }}</label>
+                            <input type="text" class="form-control" id="location_house_number" name="location_house_number"
+                                v-model="locationData.house_number" tabindex="13" />
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12">
+                        <div class="mb-1">
+                            <label for="location_zip_code" class="form-label">{{ $t('Zip Code') }}</label>
+                            <input type="text" class="form-control" id="location_zip_code" name="location_zip_code"
+                                v-model="locationData.zip_code" tabindex="14" />
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-md-6 col-12">
+                        <div class="mb-1">
+                            <label for="location_phone" class="form-label">{{ $t('Phone') }}</label>
+                            <input type="text" class="form-control" id="location_phone" name="location_phone"
+                                v-model="locationData.phone" tabindex="15" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2" v-else>
+                    <div class="col-12">
+                        <p class="text-muted">{{ $t('No location found. Location details will be saved when you add your first location.') }}</p>
                     </div>
                 </div>
 
@@ -88,6 +151,32 @@ export default {
             phoneNumber: '',
             location: '',
             personImage: null,
+            locationData: {
+                id: null,
+                first_name: '',
+                last_name: '',
+                country: '',
+                city: '',
+                street: '',
+                house_number: '',
+                zip_code: '',
+                phone: '',
+            },
+        }
+    },
+    computed: {
+        // Get the last (most recent) location from user locations
+        lastLocation() {
+            if (this.user.locations && this.user.locations.length > 0) {
+                // Sort by created_at descending and get the first one (most recent)
+                const sorted = [...this.user.locations].sort((a, b) => {
+                    const dateA = new Date(a.created_at || 0);
+                    const dateB = new Date(b.created_at || 0);
+                    return dateB - dateA;
+                });
+                return sorted[0];
+            }
+            return null;
         }
     },
     methods: {
@@ -102,6 +191,41 @@ export default {
                 this.location = response.data.location;
                 this.personImage = response.data.personImage;
 
+                // Populate location data if last location exists
+                if (response.data.locations && response.data.locations.length > 0) {
+                    // Sort by created_at descending and get the first one (most recent)
+                    const sorted = [...response.data.locations].sort((a, b) => {
+                        const dateA = new Date(a.created_at || 0);
+                        const dateB = new Date(b.created_at || 0);
+                        return dateB - dateA;
+                    });
+                    const lastLocation = sorted[0];
+                    
+                    this.locationData = {
+                        id: lastLocation.id,
+                        first_name: lastLocation.first_name || '',
+                        last_name: lastLocation.last_name || '',
+                        country: lastLocation.country || '',
+                        city: lastLocation.city || '',
+                        street: lastLocation.street || '',
+                        house_number: lastLocation.house_number || '',
+                        zip_code: lastLocation.zip_code || '',
+                        phone: lastLocation.phone || '',
+                    };
+                } else {
+                    // Reset location data if no locations exist
+                    this.locationData = {
+                        id: null,
+                        first_name: '',
+                        last_name: '',
+                        country: '',
+                        city: '',
+                        street: '',
+                        house_number: '',
+                        zip_code: '',
+                        phone: '',
+                    };
+                }
             });
         },
         // Send update image
@@ -118,19 +242,33 @@ export default {
             data.append('location', this.location);
             data.append('phoneNumber', this.phoneNumber);
             data.append('personImage', this.personImage);
-            axios.post(`/api/dashboard/profile/${this.$route.params.id}/edit`, data
-                // {
-                //     // fname : this.fname,
-                //     // lname : this.lname,
-                //     // phoneNumber : this.phoneNumber,
-                //     // location : this.location,
-                //     // email : this.email,
-                //     // personImage : this.personImage,
-                // }
-            ).then(() => {
+            
+            // Add location data if it exists
+            if (this.locationData.id) {
+                data.append('location_id', this.locationData.id);
+            }
+            data.append('location_first_name', this.locationData.first_name || '');
+            data.append('location_last_name', this.locationData.last_name || '');
+            data.append('location_country', this.locationData.country || '');
+            data.append('location_city', this.locationData.city || '');
+            data.append('location_street', this.locationData.street || '');
+            data.append('location_house_number', this.locationData.house_number || '');
+            data.append('location_zip_code', this.locationData.zip_code || '');
+            data.append('location_phone', this.locationData.phone || '');
+            
+            axios.post(`/api/dashboard/profile/${this.$route.params.id}/edit`, data).then(() => {
                 this.getuser();
                 this.showSuccessMessage();
                 this.$router.push('/dashboard/profile');
+            }).catch((error) => {
+                console.error('Error updating profile:', error);
+                Swal.fire({
+                    position: 'top-start',
+                    icon: 'error',
+                    title: 'حدث خطأ أثناء التحديث',
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
             });
         },
         // Confirm message when user send request successfully

@@ -479,8 +479,41 @@ class PaypalController extends Controller
 
     public function index()
     {
-        $payments = Payment::all();
+        $payments = Payment::where('payment_method', 'paypal')->get();
         return response()->json(['data' => $payments], 200);
+    }
+
+    // Get Stripe payments
+    public function stripeIndex()
+    {
+        $payments = Payment::where('payment_method', 'stripe')->get();
+        return response()->json(['data' => $payments], 200);
+    }
+
+    // Update Stripe payment status
+    public function updateStripeStatus(Request $request, $id)
+    {
+        // الحالات المسموح بها فقط
+        $validStatuses = ['processing', 'on_the_way', 'delivered', 'cancelled'];
+
+        // التحقق من الإدخال
+        $request->validate([
+            'status' => 'required|string|in:' . implode(',', $validStatuses),
+        ]);
+
+        // البحث عن عملية الدفع
+        $payment = Payment::where('id', $id)
+            ->where('payment_method', 'stripe')
+            ->firstOrFail();
+        
+        $payment->status = $request->status;
+        $payment->save();
+
+        return response()->json([
+            'message' => 'تم تحديث حالة الطلب بنجاح',
+            'payment' => $payment,
+            'success' => 200
+        ], 200);
     }
 
     // get user payments

@@ -137,10 +137,14 @@
             {{ location.last_name }}</span>
           </p>
           <p class="location-field">
-            <strong class="location-label">{{ $t("House Number") }}:</strong> 
+            <strong class="location-label">{{ $t("Street Number & House Number") }}:</strong> 
             <span class="location-value">{{ location.street }}
-            {{ location.house_number }}, {{ location.country }}</span>
+            {{ location.house_number }}</span>
           </p>
+	<p class="location-field">
+		<strong class="location-label">{{ $t("Country") }}:</strong> 
+		<span class="location-value">{{ location.country }}</span>
+		        </p>
 	<p class="location-field">
 	<strong class="location-label">{{ $t("City") }}:</strong> 
 	<span class="location-value">{{ location.city }}</span>
@@ -855,8 +859,9 @@ export default {
 
 .location-label {
   font-weight: bolder;
-  font-size: 22px;
-  margin-right:10px
+  font-size: 25px;
+  margin-right:10px;
+  color:black;
 }
 
 .location-value {

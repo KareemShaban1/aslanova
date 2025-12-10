@@ -15,6 +15,7 @@ import Sub_products from '../driver/table/products/Sub_products.vue'
 import Add_sub_product from '../driver/table/products/Add_sub_product.vue'
 import Emailpayment from '../driver/table/payment/Emailpayment.vue'
 import Paypalpayment from '../driver/table/payment/Paypalpayment.vue'
+import Stripepayment from '../driver/table/payment/Stripepayment.vue'
 
 
 // ------------------------------- Show Cards -------------------------------
@@ -238,6 +239,12 @@ var router = createRouter({
       path: '/paypal-payment',
       component: Paypalpayment,
       name: 'paypalpayment',
+    },
+    // --------------- stripepayment
+    {
+      path: '/stripe-payment',
+      component: Stripepayment,
+      name: 'stripepayment',
     },
 
   ]

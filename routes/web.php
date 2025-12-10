@@ -46,6 +46,20 @@ Route::middleware('auth')->group(function () {
 });
 Route::get('/get-admin', [ProfileController::class, 'getAdminInfo'])->middleware('isDriver')->name('getadmin');
 
+// Check PHP upload limits (for debugging - remove in production)
+Route::get('/check-upload-limits', function () {
+    return response()->json([
+        'upload_max_filesize' => ini_get('upload_max_filesize'),
+        'post_max_size' => ini_get('post_max_size'),
+        'max_execution_time' => ini_get('max_execution_time'),
+        'max_input_time' => ini_get('max_input_time'),
+        'memory_limit' => ini_get('memory_limit'),
+        'file_uploads' => ini_get('file_uploads'),
+        'max_file_uploads' => ini_get('max_file_uploads'),
+        'note' => 'To increase limits, edit php.ini file. See INCREASE_UPLOAD_LIMIT.md for instructions.'
+    ]);
+})->name('check.upload.limits');
+
 Route::view('/driver/register', 'driver.register');
 Route::view('/driver/login', 'driver.login');
 Route::view('/driver/index', 'driver.index');
@@ -130,6 +144,7 @@ Route::get('/{any}', function () {
 
 Route::get('/payment/success/{payment_id}', [EmailPaymentController::class, 'cartDetails'])->name('payment.success');
 Route::get('/payment_paypal/success/{payment_id}', [PaypalController::class, 'cartDetails'])->name('payment_paypal.success');
+Route::get('/payment_stripe/success/{payment_id}', [StripeController::class, 'cartDetails'])->name('payment_stripe.success');
 
 // Route::get('/{any}', function () {
 //     $currentPath = request()->path();

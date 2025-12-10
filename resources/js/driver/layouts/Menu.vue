@@ -167,6 +167,7 @@ export default {
             dropdownItemPayment: [
                 { id: 9, label: 'Email payment', link: '/email-payment' },
                 { id: 10, label: 'Paypal payment', link: '/paypal-payment' },
+		{ id: 11, label: 'Credit payment', link: '/stripe-payment' },
             ],
             user: null,
         };

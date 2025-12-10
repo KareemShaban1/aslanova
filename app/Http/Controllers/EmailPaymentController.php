@@ -132,7 +132,8 @@ class EmailPaymentController extends Controller
             $storage_data->user_id = $data['user']['id'];
             $storage_data->product_name = $item['name'];
             $storage_data->quantity = $item['quantity'];
-            $storage_data->currency = 'usd';
+          //   $storage_data->currency = 'usd';
+	  $storage_data->currency = 'eur';
             $storage_data->payer_name = $data['location']['first_name'] . ' ' . $data['location']['last_name'];
             $storage_data->payer_email = $data['user']['email'];
             $storage_data->country = $data['location']['country'];

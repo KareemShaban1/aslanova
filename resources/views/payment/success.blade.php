@@ -175,7 +175,8 @@
 			{{-- payment method --}}
 			@if ($payments[0]->payment_method === 'paypal')
 			<p>Zahlungsart: Paypal</p>
-
+			@elseif ($payments[0]->payment_method === 'stripe')
+			<p>Zahlungsart: Stripe</p>
 			@else
 			<p>Zahlungsart: Auf Rechnung</p>
 			@endif
@@ -250,6 +251,11 @@
 			</tbody>
 		</table>
 		@if ($payments[0]->payment_method === 'paypal')
+		<div class="totals">
+			<p>19% USt: {{ $total_vat }} + {{ $total_amount }} ={{ $total_total }} € </p>
+			<p><strong>Noch zu zahlender Betrag: $0.0</strong></p>
+		</div>
+		@elseif ($payments[0]->payment_method === 'stripe')
 		<div class="totals">
 			<p>19% USt: {{ $total_vat }} + {{ $total_amount }} ={{ $total_total }} € </p>
 			<p><strong>Noch zu zahlender Betrag: $0.0</strong></p>

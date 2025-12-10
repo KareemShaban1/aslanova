@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\Driver;
+use App\Models\Location;
 use App\Traits\Upload_image;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -45,20 +46,58 @@ class ProfileController extends Controller
     public function updateProfile(Request $request , $id)
     {
         $user = User::find($id);
-        $input =$request->all();
-        if ($request->hasFile('personImage')) {
-            // إذا كانت هناك صورة مرفقة
-            $image = $request->file('personImage')->getClientOriginalName();
-            $input['personImage'] = $request->file('personImage')->storeAs('edit_img', $image, 'uploadImg');
-        }
-        $user->update([
+        $updateData = [
             'fname' => $request->fname,
             'lname' => $request->lname,
             'phoneNumber' => $request->phoneNumber,
             'location' => $request->location,
             // 'email' => $request->email,
-            'personImage' => $input['personImage'],
-        ]);
+        ];
+        
+        if ($request->hasFile('personImage')) {
+            // إذا كانت هناك صورة مرفقة
+            $image = $request->file('personImage')->getClientOriginalName();
+            $updateData['personImage'] = $request->file('personImage')->storeAs('edit_img', $image, 'uploadImg');
+        }
+        
+        $user->update($updateData);
+        
+        // Handle location update or creation
+        if ($request->has('location_id') && $request->location_id) {
+            // Update existing location
+            $location = Location::where('id', $request->location_id)
+                ->where('user_id', $user->id)
+                ->first();
+            
+            if ($location) {
+                $location->update([
+                    'first_name' => $request->location_first_name,
+                    'last_name' => $request->location_last_name,
+                    'country' => $request->location_country,
+                    'city' => $request->location_city,
+                    'street' => $request->location_street,
+                    'house_number' => $request->location_house_number,
+                    'zip_code' => $request->location_zip_code,
+                    'phone' => $request->location_phone,
+                ]);
+            }
+        } else {
+            // Create new location if location data is provided
+            if ($request->has('location_country') && $request->location_country) {
+                Location::create([
+                    'user_id' => $user->id,
+                    'first_name' => $request->location_first_name,
+                    'last_name' => $request->location_last_name,
+                    'country' => $request->location_country,
+                    'city' => $request->location_city,
+                    'street' => $request->location_street,
+                    'house_number' => $request->location_house_number,
+                    'zip_code' => $request->location_zip_code,
+                    'phone' => $request->location_phone,
+                ]);
+            }
+        }
+        
         // $user->update($input);
         // return response()->json($user);
         // return response()->json($request->hasFile('personImage'));

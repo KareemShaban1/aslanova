@@ -48,10 +48,14 @@
                                     <span class="fw-bolder me-25">{{ $t('Phone number') }}:</span>
                                     <span>{{ user.phoneNumber }}</span>
                                 </li>
-                                <li class="mb-75">
-                                    <span class="fw-bolder me-25">{{ $t('Address') }}:</span>
-                                    <span>{{ user.location }}</span>
+                                <li class="mb-75" v-if="lastLocation">
+                                    <span class="fw-bolder me-25">{{ $t('Street & House Number') }}:</span>
+                                    <span>{{ lastLocation.street }} {{ lastLocation.house_number }}</span>
                                 </li>
+			  <li class="mb-75" v-if="lastLocation">
+				<span class="fw-bolder me-25">{{ $t('Country') }}:</span>
+				<span>{{ lastLocation.country }}</span>
+			      </li>
                                 <!-- <li class="mb-75">
                                     <span class="fw-bolder me-25">{{ $t('Contact') }}:</span>
                                     <span>+1 (609) 933-44-22</span>
@@ -105,6 +109,21 @@ export default {
     data() {
         return {
             user: [],
+        }
+    },
+    computed: {
+        // Get the last (most recent) location from user locations
+        lastLocation() {
+            if (this.user.locations && this.user.locations.length > 0) {
+                // Sort by created_at descending and get the first one (most recent)
+                const sorted = [...this.user.locations].sort((a, b) => {
+                    const dateA = new Date(a.created_at || 0);
+                    const dateB = new Date(b.created_at || 0);
+                    return dateB - dateA;
+                });
+                return sorted[0];
+            }
+            return null;
         }
     },
     mounted() {

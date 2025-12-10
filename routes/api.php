@@ -179,6 +179,7 @@ Route::put('Mobile/user/{id}', [MobileAuthController::class,'update']);
 // email payment
 Route::get('email-payment', [EmailPaymentController::class, 'index']);
 Route::get('paypal-payment', [PaypalController::class, 'index']);
+Route::get('stripe-payment', [PaypalController::class, 'stripeIndex']);
 
 Route::get('user-payments/{id}', [PaypalController::class, 'userPayments']);
 Route::get('user-emails/{id}', [EmailPaymentController::class, 'userPayments']);
@@ -198,4 +199,5 @@ Route::post('advertisement/{advertisement}', [AdvertisementController::class, 'u
 
 Route::resource('locations', LocationController::class);
 Route::post('/paypal/status/{id}', [PaypalController::class, 'updateStatus']);
+Route::post('/stripe/status/{id}', [PaypalController::class, 'updateStripeStatus']);
 Route::post('/email/status/{id}', [EmailPaymentController::class, 'updateStatus']);

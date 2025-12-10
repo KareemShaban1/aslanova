@@ -4,14 +4,14 @@
         <li class="breadcrumb-item">
           <router-link to="/">{{ $t('Home') }}</router-link>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">{{ $t('Email Payments') }}</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ $t('Credit Card Payments') }}</li>
       </ol>
     </nav>
   
     <div class="row" id="table-hover-row">
       <div class="col-12">
         <div class="card">
-             <!-- نموذج البحث -->
+                  <!-- نموذج البحث -->
         <div class="card-header">
           <form @submit.prevent="goToInvoice">
             <div class="input-group mb-3">
@@ -25,7 +25,6 @@
             </div>
           </form>
         </div>
-
           <!-- -------- Modal لتعديل الحالة -------- -->
           <div class="modal fade text-start" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel"
             style="display: none;" aria-hidden="true">
@@ -62,7 +61,7 @@
   
           <div class="card-header d-flex justify-content-between align-items-center">
             <div>
-              <h4 class="card-title">{{ $t('Email Payments') }}</h4>
+              <h4 class="card-title">{{ $t('Credit Card Payments') }}</h4>
               <h4 class="card-title">{{ $t('Count') }} : {{ filteredPayments.length }}</h4>
             </div>
             <!-- حقل البحث وفلترة الحالة -->
@@ -146,7 +145,7 @@
                   <td>{{ payment.quantity }}</td>
                   <td>{{ payment.amount }}</td>
                   <td>{{ payment.vat }}</td>
-                  <td>{{ payment.currency === 'usd' ? 'eur' : payment.currency }}</td>
+                  <td>{{ payment.currency }}</td>
                   <td>{{ payment.country }}</td>
                   <td>{{ payment.street }}</td>
                   <td>{{ payment.address }}</td>
@@ -184,20 +183,19 @@
       };
     },
     methods: {
-        // دالة التوجيه إلى صفحة الفاتورة
+           // دالة التوجيه إلى صفحة الفاتورة
     goToInvoice() {
       if (this.invoiceId) {
         // قم بفتح الرابط في نافذة جديدة
-        window.open(`/payment/success/${this.invoiceId}`, '_blank');
+        window.open(`/payment_stripe/success/${this.invoiceId}`, '_blank');
       } else {
         this.showErrorMessage("Please enter a valid invoice ID.");
       }
     },
-
       // جلب جميع الطلبات
       get_all() {
         axios
-          .get("/api/email-payment")
+          .get("/api/stripe-payment")
           .then((response) => {
             this.payments = response.data.data;
             this.filteredPayments = this.payments; // تعيين الطلبات المصفاة كجميع الطلبات في البداية
@@ -239,7 +237,7 @@
       // تحديث الحالة
       updateStatus() {
         axios
-          .post(`/api/email/status/${this.selectedPaymentId}`, { status: this.selectedStatus }, {
+          .post(`/api/stripe/status/${this.selectedPaymentId}`, { status: this.selectedStatus }, {
             headers: {
               'Content-Type': 'application/json', // إضافة headers إذا لزم الأمر
               // 'Authorization': `Bearer ${token}` // إذا كان API يتطلب token
@@ -313,3 +311,6 @@
     white-space: nowrap;
   }
   </style>
+
+
+
