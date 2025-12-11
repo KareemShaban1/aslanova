@@ -294,25 +294,28 @@
 	// Function to clear cart and redirect to home
 	function clearCartAndRedirect(event) {
 		event.preventDefault();
-		
+
 		// Clear cart items from localStorage
 		localStorage.removeItem('cartItems');
-		
+
 		// Redirect to home
 		window.location.href = "{{ route('home') }}";
 	}
 
-	// Prevent back navigation and redirect to stripe.success route
+	// Prevent back navigation, clear cart and redirect to home
 	(function() {
 		// Store the redirect URL
-		const redirectUrl = "{{ route('stripe.success') }}";
+		const redirectUrl = "{{ route('home') }}";
 
 		// Push a state to the history stack
 		history.pushState(null, null, location.href);
 
 		// Listen for back button press (popstate event)
 		window.addEventListener('popstate', function(event) {
-			// Redirect to stripe.success route when user tries to go back
+			// Clear cart items from localStorage
+			localStorage.removeItem('cartItems');
+
+			// Redirect to home when user tries to go back
 			window.location.href = redirectUrl;
 		});
 
