@@ -110,6 +110,8 @@
 			{{-- payment method --}}
 			@if ($total_data['payment_method'] === 'paypal')
 			<p>Zahlungsart: Paypal</p>
+			@elseif ($total_data['payment_method'] === 'stripe')
+			<p>Zahlungsart: Credit Card</p>
 			@else
 			<p>Zahlungsart: Auf Rechnung</p>
 			@endif
@@ -193,7 +195,7 @@
 			</tbody>
 		</table>
 
-		@if ($total_data['payment_method'] === 'paypal')
+		@if ($total_data['payment_method'] === 'paypal' || $total_data['payment_method'] === 'stripe')
 		<div class="totals">
 			<p>19% USt: {{ number_format($total_data['total_vat'], 2) }} +
 				{{ number_format($total_data['total_without_vat'], 2) }}
