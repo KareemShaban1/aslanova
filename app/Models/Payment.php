@@ -10,7 +10,30 @@ class Payment extends Model
     use HasFactory;
 
     protected $table = 'paypal_payments';
-    protected $fillable = ['payment_id','user_id' , 'product_name', 'quantity', 'amount', 'currency','location' , 'payer_name', 'payer_email', 'payment_status', 'payment_method','status','shipping_price'];
+    protected $fillable = [
+        'payment_id',
+        'user_id',
+        'product_name',
+        'quantity',
+        'amount',
+        'currency',
+        'payer_name',
+        'payer_email',
+        'payment_status',
+        'payment_method',
+        'status',
+        'shipping_price',
+        'country',
+        'city',
+        'street',
+        'house_number',
+        'address',
+        'zipcode',
+        'location',
+        'phone',
+        'vat',
+        'total',
+    ];
 
     public function user()
     {

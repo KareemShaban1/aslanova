@@ -168,6 +168,7 @@ class PaypalController extends Controller
                     'payer_name' => $paymentData['location']['first_name'].' '.$paymentData['location']['last_name'],
                     'payer_email' => $response['payer']['email_address'] ?? null,
                     'country' => $paymentData['location']['country'] ?? '',
+                    // 'city' => $paymentData['location']['city'] ?? '',
                     'street' => $paymentData['location']['street'] ?? '',
                     'house_number' => $paymentData['location']['house_number'] ?? '',
                     'zipcode' => $paymentData['location']['zipcode'] ?? '',

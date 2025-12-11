@@ -39,13 +39,13 @@
                                 :placeholder="user.phoneNumber" />
                         </div>
                     </div>
-                    <div class="col-xl-4 col-md-6 col-12">
+                    <!-- <div class="col-xl-4 col-md-6 col-12">
                         <div class="mb-1">
                             <label for="location" class="form-label">{{ $t('Address') }}</label>
                             <input type="text" class="form-control" id="location" name="location" v-model="location"
                                 aria-describedby="Address" tabindex="6" autofocus :placeholder="user.location" />
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col-xl-4 col-md-6 col-12">
                         <label for="personImage" class="form-label">{{ $t('personImage') }} {{ $t('(optional)')
                             }}</label>

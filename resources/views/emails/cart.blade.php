@@ -137,11 +137,14 @@
 					<td>{{ $item['name'] }}</td>
 					<td>{{ $item['quantity'] }}</td>
 					<td>{{ number_format($item['price'], 2) }} €</td>
-					<td>{{ number_format($item['vatAmount'], 2) }} €</td>
-					<td>{{ number_format($item['shipping_price'] ?? 0, 2) }} €</td>
-					<td>{{ number_format($item['price'] * $item['quantity'] + $item['shipping_price'] ?? 0, 2) }}
-						€
-					</td>
+					<td>{{ number_format($item['vat'], 2) }} €</td>
+					@php
+					$shipping = $item['shipping_price'] ?? ($total_data['shipping_price']
+					?? 0);
+					@endphp
+					<td>{{ number_format($shipping, 2) }} €</td>
+					<td>{{ number_format(($item['price'] * $item['quantity']) + $shipping, 2) }}
+						€</td>
 				</tr>
 
 				<!-- عرض بيانات partsBreakdown مع المنتج -->
@@ -192,15 +195,15 @@
 
 		@if ($total_data['payment_method'] === 'paypal')
 		<div class="totals">
-			<p>19% USt: {{ number_format($total_data['totalVat'], 2) }} +
-				{{ number_format($total_data['totalPriceWithoutVat'], 2) }}
+			<p>19% USt: {{ number_format($total_data['total_vat'], 2) }} +
+				{{ number_format($total_data['total_without_vat'], 2) }}
 				= {{ number_format($total_data['total'], 2) }} €</p>
 			<p><strong>Noch zu zahlender Betrag: 0.00 €</strong></p>
 		</div>
 		@else
 		<div class="totals">
-			<p>19% USt: {{ number_format($total_data['totalVat'], 2) }} +
-				{{ number_format($total_data['totalPriceWithoutVat'], 2) }} =
+			<p>19% USt: {{ number_format($total_data['total_vat'], 2) }} +
+				{{ number_format($total_data['total_without_vat'], 2) }} =
 				{{ number_format($total_data['total'], 2) }} €</p>
 			<p><strong>Noch zu zahlender Betrag: {{ number_format($total_data['total'], 2) }}
 					€</strong></p>
