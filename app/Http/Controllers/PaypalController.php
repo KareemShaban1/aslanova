@@ -176,7 +176,7 @@ class PaypalController extends Controller
                     'shipping_price' => $shippingPrice,
                     'vat' => $item['vat'] ?? 0,
                     'amount' => $item['price'],
-                    'total' => number_format($item['price'] * $item['quantity'], 2),
+                    'total' => $item['price'] * $item['quantity'],
                     'payment_status' => 'Completed',
                     'payment_method' => 'paypal',
                 ]);
